@@ -1,0 +1,15 @@
+{
+  "name": "fullstack-kanban-task-management-web-app",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "full stack task management web app ",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server/server.js"
+  },
+  "author": "Eamonn Hegarty",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
