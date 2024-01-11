@@ -8,6 +8,54 @@ to consider
 - load after login the entire payload of boards -> tasks -> subtasks 
 - then front end we split it so save making many get requests on clicks 
 
+example data:
+[
+  {
+    id: 1,
+    boardName: "Platform Launch",
+    tasks: [
+      {
+        id: 1,
+        taskTitle: "Build the UI for platform",
+        status: "to do",
+        taskDescription:
+          "our platform will need a ui for the users to interact with the website",
+        subTasks: [
+          {
+            id: 1,
+            subtaskTitle: "research frameworks",
+            completed: false,
+          }
+          {
+            id: 2,
+            subtaskTitle: "implement chosen framework",
+            completed: false,
+          },
+        ],
+      },
+      {
+        id: 2,
+        taskTitle: "Demo the UI to stakeholders",
+        taskDescription:
+          "now that we have selected the UI and built lets demo to our stakeholders and get their approval",
+        status: "to do",
+        subTasks: [
+          {
+            id: 1,
+            subtaskTitle: "set up teams meeting",
+            completed: false,
+          },
+          {
+            id: 2,
+            subtaskTitle: "implement chosen framework",
+            completed: false,
+          },
+        ],
+      },
+    ],
+  }
+];
+
 
 Boards:
 
@@ -17,7 +65,7 @@ POST /boards: Create a new board.
 PUT /boards/{board_id}: Update an existing board.
 DELETE /boards/{board_id}: Delete a board.
 
-
+GET /boards-complete: Retrieve all boards tasks and subtasks in formatted json
 
 Tasks:
 
