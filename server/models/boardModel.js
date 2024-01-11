@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import tasksSchema from "./taskModel";
+import tasksSchema from "./taskModel.js";
 
 const boardSchema = new mongoose.Schema(
   {
