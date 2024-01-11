@@ -4,3 +4,5 @@ const boards = [
   { _id: "3", boardName: "board 3" },
   { _id: "4", boardName: "board 4" },
 ];
+
+export { boards };

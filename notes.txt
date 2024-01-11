@@ -4,33 +4,38 @@ one to many, one to many, one to many
 
 so board tables will have UserID as the foreignKey, task tables will have boardID as their forign key 
 
+to consider
+- load after login the entire payload of boards -> tasks -> subtasks 
+- then front end we split it so save making many get requests on clicks 
+
+
 Boards:
 
-GET /board: Retrieve all boards.
-GET /board/{board_id}: Retrieve a specific board.
-POST /board: Create a new board.
-PUT /board/{board_id}: Update an existing board.
-DELETE /board/{board_id}: Delete a board.
+GET /boards: Retrieve all boards.
+GET /boards/{board_id}: Retrieve a specific board.
+POST /boards: Create a new board.
+PUT /boards/{board_id}: Update an existing board.
+DELETE /boards/{board_id}: Delete a board.
 
 
 
 Tasks:
 
-GET /board/{board_id}/task: Retrieve all tasks for a specific board.
-GET /board/{board_id}/task/{task_id}: Retrieve a specific task within a board.
-POST /board/{board_id}/task: Create a new task within a board.
-PUT /board/{board_id}/task/{task_id}: Update an existing task within a board.
-DELETE /board/{board_id}/task/{task_id}: Delete a task within a board.
+GET /boards/{board_id}/tasks: Retrieve all tasks for a specific board.
+GET /boards/{board_id}/tasks/{task_id}: Retrieve a specific task within a board.
+POST /boards/{board_id}/tasks: Create a new task within a board.
+PUT /boards/{board_id}/tasks/{task_id}: Update an existing task within a board.
+DELETE /boards/{board_id}/tasks/{task_id}: Delete a task within a board.
 
 
 
 Subtasks:
 
-GET /board/{board_id}/task/{task_id}/subtask: Retrieve all subtasks for a specific task.
-GET /board/{board_id}/task/{task_id}/subtask/{subtask_id}: Retrieve a specific subtask within a task.
-POST /board/{board_id}/task/{task_id}/subtask: Create a new subtask within a task.
-PUT /board/{board_id}/task/{task_id}/subtask/{subtask_id}: Update an existing subtask within a task.
-DELETE /board/{board_id}/task/{task_id}/subtask/{subtask_id}: Delete a subtask within a task.
+GET /boards/{board_id}/tasks/{task_id}/subtasks: Retrieve all subtasks for a specific task.
+GET /boards/{board_id}/tasks/{task_id}/subtasks/{subtask_id}: Retrieve a specific subtask within a task.
+POST /boards/{board_id}/tasks/{task_id}/subtasks: Create a new subtask within a task.
+PUT /boards/{board_id}/tasks/{task_id}/subtasks/{subtask_id}: Update an existing subtask within a task.
+DELETE /boards/{board_id}/tasks/{task_id}/subtasks/{subtask_id}: Delete a subtask within a task.
 
 while using youtube video to learn about sql and pgadmin: 
 video on - 4:33:00
