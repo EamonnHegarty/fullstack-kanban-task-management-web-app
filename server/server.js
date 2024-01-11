@@ -1,7 +1,10 @@
 import express from "express";
 import { boards } from "./data/boards.js";
+import dotenv from "dotenv";
 
-const port = 8000;
+dotenv.config();
+
+const port = process.env.PORT || 5050;
 
 const app = express();
 
