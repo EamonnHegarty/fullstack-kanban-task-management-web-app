@@ -1,7 +1,8 @@
 import express from "express";
-import { boards } from "./data/boards.js";
 import dotenv from "dotenv";
 import { connectDB } from "./config/db.js";
+import boardRoutes from "./routes/boardRoutes.js";
+import { notFound, errorHandler } from "./middleware/errorHandler.js";
 
 dotenv.config();
 
@@ -14,14 +15,10 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.get("/boards", (req, res) => {
-  res.json(boards);
-});
+app.use("/api/boards", boardRoutes);
 
-app.get("/boards/:id", (req, res) => {
-  const board = boards.find((b) => b._id === req.params.id);
-  res.json(board);
-});
+app.use(notFound);
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

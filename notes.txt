@@ -56,10 +56,10 @@ example data:
   }
 ];
 
-
+prefix requests: api
 Boards:
 
-GET /boards: Retrieve all boards.
+GET /boards: Retrieve all boards with all tasks and sub tasks.
 GET /boards/{board_id}: Retrieve a specific board.
 POST /boards: Create a new board.
 PUT /boards/{board_id}: Update an existing board.
