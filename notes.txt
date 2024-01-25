@@ -8,6 +8,10 @@ to consider
 - load after login the entire payload of boards -> tasks -> subtasks 
 - then front end we split it so save making many get requests on clicks 
 
+****** CURRENT FINISHED BRAD TRAVERSY - CHAPTER 3 - PRODUCT CONTROLLER
+
+
+
 example data:
 [
   {
