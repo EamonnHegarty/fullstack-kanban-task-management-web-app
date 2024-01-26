@@ -18,6 +18,41 @@ const lightTheme = createTheme({
       paper: "#F4F7FD",
     },
   },
+  typography: {
+    // Heading XL
+    h1: {
+      fontFamily: ["Plus Jakarta Sans", "serif"].join(","),
+      fontSize: 24,
+      fontWeight: "bold",
+    },
+    // Heading L
+    h2: {
+      fontFamily: ["Plus Jakarta Sans", "serif"].join(","),
+      fontSize: 18,
+      fontWeight: "bold",
+    },
+    // Heading M
+    h3: {
+      fontFamily: ["Plus Jakarta Sans", "serif"].join(","),
+      fontSize: 15,
+      fontWeight: "bold",
+    },
+    // Heading S
+    h4: {
+      fontFamily: ["Plus Jakarta Sans", "serif"].join(","),
+      fontSize: 12,
+      fontWeight: "bold",
+    },
+    body1: {
+      fontFamily: ["Plus Jakarta Sans", "serif"].join(","),
+      fontSize: 13,
+    },
+    body2: {
+      fontFamily: ["Plus Jakarta Sans", "serif"].join(","),
+      fontSize: 12,
+      fontWeight: "bold",
+    },
+  },
 });
 
 const darkTheme = createTheme({
