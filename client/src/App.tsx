@@ -1,5 +1,5 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import { Board } from "./pages/Board";
+import { Desktop } from "./pages/Desktop";
 import Login from "./pages/Login";
 import { Box } from "@mui/material";
 import { useTheme } from "./theme/useTheme";
@@ -10,7 +10,7 @@ const AppRouter = () => {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
-      <Route path="/boards" element={<Board />} />
+      <Route path="/boards" element={<Desktop />} />
     </Routes>
   );
 };
