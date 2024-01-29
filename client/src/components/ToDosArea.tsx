@@ -16,4 +16,4 @@ const ToDosArea = () => {
   );
 };
 
-export default ToDosArea;
+export { ToDosArea };

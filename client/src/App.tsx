@@ -1,6 +1,6 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { Desktop } from "./pages/Desktop";
-import Login from "./pages/Login";
+import { Login } from "./pages/Login";
 import { Box } from "@mui/material";
 import { useTheme } from "./theme/useTheme";
 import { ThemeProvider } from "@mui/material/styles";

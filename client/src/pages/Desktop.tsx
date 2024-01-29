@@ -1,7 +1,7 @@
 import Grid from "@mui/material/Grid";
 import { Navbar } from "../components/Navbar";
-import SideBar from "../components/SideBar";
-import ToDosArea from "../components/ToDosArea";
+import { SideBar } from "../components/SideBar";
+import { ToDosArea } from "../components/ToDosArea";
 
 const Desktop = () => {
   return (
