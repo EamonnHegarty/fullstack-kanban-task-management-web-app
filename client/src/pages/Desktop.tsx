@@ -1,19 +1,17 @@
-import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 import { Navbar } from "../components/Navbar";
-import { SideBar } from "../components/SideBar";
+import { Drawer } from "../components/Drawer";
 import { ToDosArea } from "../components/ToDosArea";
 
 const Desktop = () => {
   return (
-    <Grid container>
-      <Grid item xs={2}>
-        <SideBar />
-      </Grid>
-      <Grid item xs={10}>
+    <Box sx={{ display: "flex", height: "100vh" }}>
+      <Drawer />
+      <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
         <Navbar />
         <ToDosArea />
-      </Grid>
-    </Grid>
+      </Box>
+    </Box>
   );
 };
 
