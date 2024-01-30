@@ -1,8 +1,7 @@
-import Box from "@mui/material/Box";
 import { Navbar } from "../components/Navbar";
 import { Drawer } from "../components/Drawer";
 import { ToDosArea } from "../components/ToDosArea";
-
+import Box from "@mui/material/Box";
 const Desktop = () => {
   return (
     <Box sx={{ display: "flex", height: "100vh" }}>
