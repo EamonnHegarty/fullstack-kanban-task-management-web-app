@@ -123,7 +123,7 @@ const Drawer = () => {
                 onClick={() => handleListItemClick(data.id)}
                 sx={{
                   "&.Mui-selected, &.Mui-selected:hover": {
-                    backgroundColor: "#635FC7", // Replace with your custom color
+                    backgroundColor: "#635FC7",
                   },
                 }}
               >
