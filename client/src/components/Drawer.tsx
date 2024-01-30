@@ -4,7 +4,9 @@ import {
   IconButton,
   List,
   ListItem,
+  ListItemButton,
   ListItemText,
+  Switch,
   Theme,
   Toolbar,
   Typography,
@@ -14,6 +16,9 @@ import { useTheme } from "../theme/useTheme";
 import MuiDrawer from "@mui/material/Drawer";
 import { useCallback, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
 
 const DRAWER_WIDTH = 240;
 
@@ -72,20 +77,28 @@ const StyledDrawer = styled(MuiDrawer, {
   }),
 }));
 
+const StyledSwitch = styled(Switch)(({ theme }) => ({
+  "& .MuiSwitch-switchBase.Mui-checked": {
+    color: theme.palette.primary.light,
+  },
+  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+    backgroundColor: theme.palette.primary.light,
+  },
+}));
+
 const Drawer = () => {
   const { toggleDarkMode } = useTheme();
+
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(1);
 
   const handleDrawerOpen = useCallback(() => {
     setOpen(true);
-    toggleDarkMode();
-  }, [toggleDarkMode]);
+  }, []);
 
   const handleDrawerClose = useCallback(() => {
     setOpen(false);
-    toggleDarkMode();
-  }, [toggleDarkMode]);
+  }, []);
 
   const handleListItemClick = (id: number) => {
     setSelectedId(id);
@@ -105,11 +118,16 @@ const Drawer = () => {
               <ListItemText primary="ALL BOARDS (8)" />
             </ListItem>
             {DUMMY_DATA.map((data) => (
-              <ListItem
-                button
+              <ListItemButton
                 selected={data.id === selectedId}
                 onClick={() => handleListItemClick(data.id)}
+                sx={{
+                  "&.Mui-selected, &.Mui-selected:hover": {
+                    backgroundColor: "#635FC7", // Replace with your custom color
+                  },
+                }}
               >
+                <DashboardIcon sx={{ mr: 2 }} />
                 <Typography
                   variant="body1"
                   color={
@@ -118,11 +136,16 @@ const Drawer = () => {
                 >
                   {data.boardName}
                 </Typography>
-              </ListItem>
+              </ListItemButton>
             ))}
           </List>
         )}
         <Box flexGrow={1} />
+        <Box display="flex" justifyContent="center" alignItems="center">
+          <LightModeIcon sx={{ color: "text.secondary" }} />
+          <StyledSwitch onClick={toggleDarkMode} />
+          <DarkModeIcon sx={{ color: "text.secondary" }} />
+        </Box>
         <IconButton
           onClick={open ? handleDrawerClose : handleDrawerOpen}
           color="secondary"
