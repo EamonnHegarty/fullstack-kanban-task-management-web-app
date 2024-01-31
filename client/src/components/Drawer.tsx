@@ -5,7 +5,6 @@ import {
   List,
   ListItem,
   ListItemButton,
-  ListItemText,
   Switch,
   Theme,
   Toolbar,
@@ -15,7 +14,6 @@ import {
 import { useTheme } from "../theme/useTheme";
 import MuiDrawer from "@mui/material/Drawer";
 import { useCallback, useState } from "react";
-import MenuIcon from "@mui/icons-material/Menu";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
