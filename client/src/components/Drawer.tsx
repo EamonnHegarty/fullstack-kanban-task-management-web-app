@@ -19,6 +19,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 const DRAWER_WIDTH = 240;
 
@@ -115,7 +117,9 @@ const Drawer = () => {
         {open && (
           <List sx={{ flexGrow: 1 }}>
             <ListItem>
-              <ListItemText primary="ALL BOARDS (8)" />
+              <Typography variant="h4" sx={{ color: "text.secondary" }}>
+                ALL BOARDS(8)
+              </Typography>
             </ListItem>
             {DUMMY_DATA.map((data) => (
               <ListItemButton
@@ -123,7 +127,7 @@ const Drawer = () => {
                 onClick={() => handleListItemClick(data.id)}
                 sx={{
                   "&.Mui-selected, &.Mui-selected:hover": {
-                    backgroundColor: "#635FC7",
+                    backgroundColor: "primary.light",
                   },
                 }}
               >
@@ -143,18 +147,25 @@ const Drawer = () => {
         <Box flexGrow={1} />
         <Box display="flex" justifyContent="center" alignItems="center">
           <LightModeIcon sx={{ color: "text.secondary" }} />
-          <StyledSwitch onClick={toggleDarkMode} />
+          <StyledSwitch onClick={toggleDarkMode} sx={{ mx: 2 }} />
           <DarkModeIcon sx={{ color: "text.secondary" }} />
         </Box>
         <IconButton
           onClick={open ? handleDrawerClose : handleDrawerOpen}
-          color="secondary"
           aria-label={open ? "hide drawer" : "show drawer"}
           sx={{
             mb: 2,
           }}
         >
-          <MenuIcon sx={{ color: "text.secondary", mr: open ? 2 : 0 }} />
+          {!open ? (
+            <VisibilityIcon
+              sx={{ color: "text.secondary", mr: open ? 2 : 0 }}
+            />
+          ) : (
+            <VisibilityOffIcon
+              sx={{ color: "text.secondary", mr: open ? 2 : 0 }}
+            />
+          )}
           {open && (
             <Typography variant="body1" color="text.secondary">
               Hide Sidebar
