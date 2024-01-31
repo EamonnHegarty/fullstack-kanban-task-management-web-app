@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { connectDB } from "./config/db.js";
 import boardRoutes from "./routes/boardRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
+import cors from "cors";
 
 dotenv.config();
 
@@ -10,6 +11,7 @@ const port = process.env.PORT || 5050;
 
 connectDB();
 const app = express();
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
