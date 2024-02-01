@@ -5,11 +5,11 @@ import Box from "@mui/material/Box";
 import { useGetBoardsQuery } from "../slices/boardsApiSlice";
 
 const Desktop = () => {
-  const { data: boards, isLoading, isError } = useGetBoardsQuery({});
+  const { data: boards = [] } = useGetBoardsQuery({});
 
   return (
     <Box sx={{ display: "flex", height: "100vh" }}>
-      <Drawer />
+      <Drawer data={boards} />
       <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
         <Navbar />
         <ToDosArea />

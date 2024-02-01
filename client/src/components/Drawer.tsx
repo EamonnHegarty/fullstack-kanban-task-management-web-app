@@ -13,29 +13,15 @@ import {
 } from "@mui/material";
 import { useTheme } from "../theme/useTheme";
 import MuiDrawer from "@mui/material/Drawer";
-import { useCallback, useState } from "react";
+import { FC, ReactElement, useCallback, useState } from "react";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { Boards } from "../types/Boards";
 
 const DRAWER_WIDTH = 240;
-
-const DUMMY_DATA = [
-  {
-    id: 1,
-    boardName: "Platform Launch",
-  },
-  {
-    id: 2,
-    boardName: "Marketing Plan",
-  },
-  {
-    id: 3,
-    boardName: "Roadmap",
-  },
-];
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: DRAWER_WIDTH,
@@ -86,7 +72,13 @@ const StyledSwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-const Drawer = () => {
+type DrawerProps = {
+  data: Array<Boards>;
+};
+
+const Drawer: FC<DrawerProps> = (props): ReactElement => {
+  const { data } = props;
+
   const { toggleDarkMode } = useTheme();
 
   const [open, setOpen] = useState(false);
@@ -100,9 +92,9 @@ const Drawer = () => {
     setOpen(false);
   }, []);
 
-  const handleListItemClick = (id: number) => {
+  const handleOnSelectionMade = useCallback((id: number) => {
     setSelectedId(id);
-  };
+  }, []);
 
   return (
     <StyledDrawer
@@ -119,10 +111,11 @@ const Drawer = () => {
                 ALL BOARDS(8)
               </Typography>
             </ListItem>
-            {DUMMY_DATA.map((data) => (
+            {data.map((data) => (
               <ListItemButton
-                selected={data.id === selectedId}
-                onClick={() => handleListItemClick(data.id)}
+                key={data._id}
+                selected={data._id === selectedId}
+                onClick={() => handleOnSelectionMade(data._id)}
                 sx={{
                   "&.Mui-selected, &.Mui-selected:hover": {
                     backgroundColor: "primary.light",
@@ -133,7 +126,7 @@ const Drawer = () => {
                 <Typography
                   variant="body1"
                   color={
-                    data.id === selectedId ? "text.primary" : "text.secondary"
+                    data._id === selectedId ? "text.primary" : "text.secondary"
                   }
                 >
                   {data.boardName}
