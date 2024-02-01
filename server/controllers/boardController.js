@@ -5,7 +5,7 @@ import Board from "../models/boardModel.js";
 // @route GET /api/boards
 // @access Public
 const getBoards = asyncHandler(async (req, res) => {
-  const boards = await Board.find({});
+  const boards = await Board.find({}, { boardName: 1 });
   res.json(boards);
 });
 

@@ -63,8 +63,8 @@ example data:
 prefix requests: api
 Boards:
 
-GET /boards: Retrieve all boards with all tasks and sub tasks.
-GET /boards/{board_id}: Retrieve a specific board.
+GET /boards: Retrieve all boards only - used to display in the drawer component.
+GET /boards/{board_id}: Retrieve a specific board with its tasks and sub tasks.
 POST /boards: Create a new board.
 PUT /boards/{board_id}: Update an existing board.
 DELETE /boards/{board_id}: Delete a board.
