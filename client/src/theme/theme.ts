@@ -1,4 +1,4 @@
-import { createTheme } from "@mui/material";
+import { alpha, createTheme, Theme } from "@mui/material";
 
 const typography = {
   // Heading XL
@@ -36,6 +36,18 @@ const typography = {
   },
 };
 
+const components = {
+  MuiListItemButton: {
+    styleOverrides: {
+      root: ({ theme }: { theme: Theme }) => ({
+        "&:hover": {
+          backgroundColor: alpha(theme.palette.primary.light, 0.12),
+        },
+      }),
+    },
+  },
+};
+
 const lightTheme = createTheme({
   palette: {
     mode: "light",
@@ -56,6 +68,7 @@ const lightTheme = createTheme({
     },
   },
   typography,
+  components,
 });
 
 const darkTheme = createTheme({
@@ -78,6 +91,7 @@ const darkTheme = createTheme({
     },
   },
   typography,
+  components,
 });
 
 export { lightTheme, darkTheme };

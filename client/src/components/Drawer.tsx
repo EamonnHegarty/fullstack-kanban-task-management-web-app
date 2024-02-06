@@ -13,7 +13,14 @@ import {
 } from "@mui/material";
 import { useTheme } from "../theme/useTheme";
 import MuiDrawer from "@mui/material/Drawer";
-import { FC, ReactElement, useCallback, useState } from "react";
+import {
+  Dispatch,
+  FC,
+  ReactElement,
+  SetStateAction,
+  useCallback,
+  useState,
+} from "react";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
@@ -74,10 +81,12 @@ const StyledSwitch = styled(Switch)(({ theme }) => ({
 
 type DrawerProps = {
   data: Array<Boards>;
+  setOpenCreateBoard: Dispatch<SetStateAction<boolean>>;
+  openCreateBoard: boolean;
 };
 
 const Drawer: FC<DrawerProps> = (props): ReactElement => {
-  const { data } = props;
+  const { data, setOpenCreateBoard, openCreateBoard } = props;
 
   const { toggleDarkMode } = useTheme();
 
@@ -133,6 +142,22 @@ const Drawer: FC<DrawerProps> = (props): ReactElement => {
                 </Typography>
               </ListItemButton>
             ))}
+            <ListItemButton
+              onClick={() => setOpenCreateBoard(!openCreateBoard)}
+              sx={{
+                color: "primary.light",
+              }}
+            >
+              <DashboardIcon sx={{ mr: 2 }} />
+              <Typography
+                variant="body1"
+                sx={{
+                  fontWeight: "bold",
+                }}
+              >
+                + Create a Board
+              </Typography>
+            </ListItemButton>
           </List>
         )}
         <Box flexGrow={1} />

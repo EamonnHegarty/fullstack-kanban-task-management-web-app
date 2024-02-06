@@ -12,11 +12,11 @@ const getBoards = asyncHandler(async (req, res) => {
 // @desc Create a board
 // @route POST /api/boards
 // @access PRIVATE
-// const createBoard = asyncHandler(async, (req, res) => {
-//   const {boardName} = req.getBoardById
-
-//   const
-// })
+const createBoard = asyncHandler(async (req, res) => {
+  const boards = await Board.find({}, { boardName: 1 });
+  res.json("request was made thanks");
+  console.log(req);
+});
 
 // @desc Fetch a board
 // @route GET /api/boards/:id
@@ -32,4 +32,4 @@ const getBoardById = asyncHandler(async (req, res) => {
   }
 });
 
-export { getBoards, getBoardById };
+export { getBoards, getBoardById, createBoard };

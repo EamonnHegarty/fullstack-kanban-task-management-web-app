@@ -9,7 +9,14 @@ export const boardsApiSlice = apiSlice.injectEndpoints({
       }),
       keepUnusedDataFor: 5,
     }),
+    createBoard: builder.mutation({
+      query: (data) => ({
+        url: BOARDS_URL,
+        method: "POST",
+        body: { ...data },
+      }),
+    }),
   }),
 });
 
-export const { useGetBoardsQuery } = boardsApiSlice;
+export const { useGetBoardsQuery, useCreateBoardMutation } = boardsApiSlice;
