@@ -46,6 +46,18 @@ const components = {
       }),
     },
   },
+  MuiOutlinedInput: {
+    styleOverrides: {
+      root: ({ theme }: { theme: Theme }) => ({
+        "& .MuiOutlinedInput-notchedOutline": {
+          borderColor: theme.palette.text.secondary,
+        },
+        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+          borderColor: theme.palette.primary.light,
+        },
+      }),
+    },
+  },
 };
 
 const lightTheme = createTheme({

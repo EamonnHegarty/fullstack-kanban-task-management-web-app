@@ -4,7 +4,8 @@ import { ToDosArea } from "../components/ToDosArea";
 import Box from "@mui/material/Box";
 import { useGetBoardsQuery } from "../slices/boardsApiSlice";
 import { useState } from "react";
-import { CreateBoardModal } from "../components/CreateBoardModal";
+import { Modal } from "../components/Modal";
+import BoardForm from "../components/BoardForm";
 
 const Desktop = () => {
   const { data: boards = [] } = useGetBoardsQuery({});
@@ -21,9 +22,10 @@ const Desktop = () => {
         <Navbar />
         <ToDosArea />
         {openCreateBoard && (
-          <CreateBoardModal
+          <Modal
             openCreateBoard={openCreateBoard}
             setOpenCreateBoard={setOpenCreateBoard}
+            FormComponent={<BoardForm />}
           />
         )}
       </Box>

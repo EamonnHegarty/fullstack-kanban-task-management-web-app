@@ -1,33 +1,33 @@
-import { FC } from "react";
+import { FC, ReactElement } from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
+import { Modal as MuiModal } from "@mui/material";
 import Fade from "@mui/material/Fade";
-import Typography from "@mui/material/Typography";
 
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
+  //add some sx:, md: to this
   width: 400,
   bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
+  border: "0.5px solid #000",
   p: 4,
 };
 
-type CreateBoardModal = {
+type Modal = {
   setOpenCreateBoard: React.Dispatch<React.SetStateAction<boolean>>;
   openCreateBoard: boolean;
+  FormComponent: ReactElement;
 };
 
-const CreateBoardModal: FC<CreateBoardModal> = (props): React.ReactElement => {
-  const { setOpenCreateBoard, openCreateBoard } = props;
+const Modal: FC<Modal> = (props): React.ReactElement => {
+  const { setOpenCreateBoard, openCreateBoard, FormComponent } = props;
 
   return (
     <div>
-      <Modal
+      <MuiModal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         open={openCreateBoard}
@@ -41,18 +41,11 @@ const CreateBoardModal: FC<CreateBoardModal> = (props): React.ReactElement => {
         }}
       >
         <Fade in={openCreateBoard}>
-          <Box sx={style}>
-            <Typography id="transition-modal-title" variant="h6" component="h2">
-              Text in a modal
-            </Typography>
-            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography>
-          </Box>
+          <Box sx={style}>{FormComponent}</Box>
         </Fade>
-      </Modal>
+      </MuiModal>
     </div>
   );
 };
 
-export { CreateBoardModal };
+export { Modal };
