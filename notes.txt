@@ -10,84 +10,79 @@ to consider
 
 ****** CURRENT FINISHED BRAD TRAVERSY - CHAPTER 3 - PRODUCT CONTROLLER
 
-
+TO DO 
+- update expected fake data
+- update routes
+- update schema and db
 
 example data:
 [
   {
-    id: 1,
-    boardName: "Platform Launch",
-    tasks: [
+    "id": 1,
+    "boardName": "Platform Launch",
+    "columns": [
       {
-        id: 1,
-        taskTitle: "Build the UI for platform",
-        status: "to do",
-        taskDescription:
-          "our platform will need a ui for the users to interact with the website",
-        subTasks: [
+        "id": 1,
+        "columnName": "Todo",
+        "tasks": [
           {
-            id: 1,
-            subtaskTitle: "research frameworks",
-            completed: false,
+            "id": 1,
+            "taskTitle": "Build the UI for platform",
+            "status": "to do",
+            "taskDescription": "our platform will need a ui for the users to interact with the website",
+            "subTasks": [
+              {
+                "id": 1,
+                "subtaskTitle": "research frameworks",
+                "completed": false
+              },
+              {
+                "id": 2,
+                "subtaskTitle": "implement chosen framework",
+                "completed": false
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "taskTitle": "Demo the UI to stakeholders",
+            "status": "to do",
+            "taskDescription": "now that we have selected the UI and built it, let's demo to our stakeholders and get their approval",
+            "subTasks": [
+              {
+                "id": 1,
+                "subtaskTitle": "set up teams meeting",
+                "completed": false
+              },
+              {
+                "id": 2,
+                "subtaskTitle": "prepare demo presentation",
+                "completed": false
+              }
+            ]
           }
-          {
-            id: 2,
-            subtaskTitle: "implement chosen framework",
-            completed: false,
-          },
-        ],
-      },
-      {
-        id: 2,
-        taskTitle: "Demo the UI to stakeholders",
-        taskDescription:
-          "now that we have selected the UI and built lets demo to our stakeholders and get their approval",
-        status: "to do",
-        subTasks: [
-          {
-            id: 1,
-            subtaskTitle: "set up teams meeting",
-            completed: false,
-          },
-          {
-            id: 2,
-            subtaskTitle: "implement chosen framework",
-            completed: false,
-          },
-        ],
-      },
-    ],
+        ]
+      }
+    ]
   }
-];
+]
 
-prefix requests: api
-Boards:
+api (for now just the routes I know we will need)
 
-GET /boards: Retrieve all boards only - used to display in the drawer component.
-GET /boards/{board_id}: Retrieve a specific board with its tasks and sub tasks.
-POST /boards: Create a new board.
-PUT /boards/{board_id}: Update an existing board.
-DELETE /boards/{board_id}: Delete a board.
+BOARDS
 
-GET /boards-complete: Retrieve all boards tasks and subtasks in formatted json
+GET /api/boards - retrieve all board names 
+GET /api/boards/{boardId} - retrieve individual board with all its columns, tasks, subtasks
+POST /api/boards - create a new board with columns 
+PUT/PATCH /api/boards/{boardId} - update board or columns of board, 
 
-Tasks:
+COLUMNS
+GET /api/boards/{boardId}/columns - get the columns for a board, this is needed for the options when user creates a new task
 
-GET /boards/{board_id}/tasks: Retrieve all tasks for a specific board.
-GET /boards/{board_id}/tasks/{task_id}: Retrieve a specific task within a board.
-POST /boards/{board_id}/tasks: Create a new task within a board.
-PUT /boards/{board_id}/tasks/{task_id}: Update an existing task within a board.
-DELETE /boards/{board_id}/tasks/{task_id}: Delete a task within a board.
+TASKS 
+POST /api/boards/{boardId}/columns/{columnId}/tasks - create a task with subtasks for a column for a board
+PUT/PATCH /api/boards/{boardId}/columns/{columnId}/tasks/{tasksId} - update the column of a board
+DELETE /api/boards/{boardId}/columns/{columnId}/tasks/{tasksId} - delete a task for a column of a board
 
 
 
-Subtasks:
-
-GET /boards/{board_id}/tasks/{task_id}/subtasks: Retrieve all subtasks for a specific task.
-GET /boards/{board_id}/tasks/{task_id}/subtasks/{subtask_id}: Retrieve a specific subtask within a task.
-POST /boards/{board_id}/tasks/{task_id}/subtasks: Create a new subtask within a task.
-PUT /boards/{board_id}/tasks/{task_id}/subtasks/{subtask_id}: Update an existing subtask within a task.
-DELETE /boards/{board_id}/tasks/{task_id}/subtasks/{subtask_id}: Delete a subtask within a task.
-
-while using youtube video to learn about sql and pgadmin: 
-video on - 4:33:00

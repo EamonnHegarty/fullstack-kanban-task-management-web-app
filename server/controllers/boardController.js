@@ -3,15 +3,24 @@ import Board from "../models/boardModel.js";
 
 // @desc Fetch all boards
 // @route GET /api/boards
-// @access Public
+// @access PRIVATE
 const getBoards = asyncHandler(async (req, res) => {
   const boards = await Board.find({}, { boardName: 1 });
   res.json(boards);
 });
 
+// @desc Create a board
+// @route POST /api/boards
+// @access PRIVATE
+// const createBoard = asyncHandler(async, (req, res) => {
+//   const {boardName} = req.getBoardById
+
+//   const
+// })
+
 // @desc Fetch a board
 // @route GET /api/boards/:id
-// @access Public
+// @access PRIVATE
 const getBoardById = asyncHandler(async (req, res) => {
   const board = await Board.findById(req.params.id);
 
