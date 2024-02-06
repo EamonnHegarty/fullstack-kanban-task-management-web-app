@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import tasksSchema from "./taskModel.js";
+import columnSchema from "./columnModel.js";
 
 const boardSchema = new mongoose.Schema(
   {
@@ -12,7 +12,7 @@ const boardSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    tasks: [tasksSchema],
+    columns: [columnSchema],
   },
   { timestamps: true }
 );

@@ -28,7 +28,6 @@ example data:
           {
             "id": 1,
             "taskTitle": "Build the UI for platform",
-            "status": "to do",
             "taskDescription": "our platform will need a ui for the users to interact with the website",
             "subTasks": [
               {
@@ -46,7 +45,6 @@ example data:
           {
             "id": 2,
             "taskTitle": "Demo the UI to stakeholders",
-            "status": "to do",
             "taskDescription": "now that we have selected the UI and built it, let's demo to our stakeholders and get their approval",
             "subTasks": [
               {
