@@ -74,6 +74,11 @@ const lightTheme = createTheme({
       primary: "#000112",
       secondary: "#828FA3",
     },
+    info: {
+      main: alpha("#A7A9FC", 0.25),
+      light: alpha("#A7A9FC", 0.5),
+      dark: "#635FC7",
+    },
     background: {
       default: "#FFFFFF",
       paper: "#F4F7FD",
@@ -96,6 +101,11 @@ const darkTheme = createTheme({
     text: {
       primary: "#FFFFFF",
       secondary: "#828FA3",
+    },
+    info: {
+      main: "#FFFFFF",
+      light: alpha("#FFFFFF", 0.5),
+      dark: "#635FC7",
     },
     background: {
       default: "#2B2C37",

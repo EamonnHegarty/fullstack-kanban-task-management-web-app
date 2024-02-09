@@ -18,7 +18,13 @@ const Desktop = () => {
         openCreateBoard={openCreateBoard}
         setOpenCreateBoard={setOpenCreateBoard}
       />
-      <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
+      <Box
+        sx={{
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
         <Navbar />
         <ToDosArea />
         {openCreateBoard && (

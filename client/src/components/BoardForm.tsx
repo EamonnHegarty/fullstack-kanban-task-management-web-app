@@ -47,34 +47,53 @@ const BoardForm = () => {
   );
 
   return (
-    <>
-      <Typography variant="h2" sx={{ color: "text.primary", mb: 3 }}>
-        Add New Board
-      </Typography>
-      <Typography variant="body2" sx={{ color: "text.secondary", mb: 1 }}>
-        Board Name
-      </Typography>
-      <TextField
-        id="board-name"
-        variant="outlined"
-        fullWidth
-        size="small"
-        sx={{ mb: 2 }}
-      />
-      <Typography variant="body2" sx={{ color: "text.secondary", mb: 1 }}>
-        Board Columns
-      </Typography>
+    <Grid container direction="column" spacing={2}>
+      <Grid item>
+        <Typography variant="h2" sx={{ color: "text.primary" }}>
+          Add New Board
+        </Typography>
+      </Grid>
+      <Grid item>
+        <Typography variant="body2" sx={{ color: "text.secondary" }}>
+          Board Name
+        </Typography>
+      </Grid>
+      <Grid item>
+        <TextField id="board-name" variant="outlined" fullWidth size="small" />
+      </Grid>
+      <Grid item>
+        <Typography variant="body2" sx={{ color: "text.secondary" }}>
+          Board Columns
+        </Typography>
+      </Grid>
       {columns.map((column, index) => (
-        <ColumnTextField
-          key={index}
-          value={column}
-          onDelete={() => handleDeleteColumn(index)}
-        />
+        <Grid item key={index}>
+          <ColumnTextField
+            value={column}
+            onDelete={() => handleDeleteColumn(index)}
+          />
+        </Grid>
       ))}
-      <Button onClick={handleAddColumn} variant="contained" sx={{ mb: 2 }}>
-        + Add New Column
-      </Button>
-    </>
+      <Grid item>
+        <Button
+          onClick={handleAddColumn}
+          variant="contained"
+          sx={{
+            color: "info.dark",
+            backgroundColor: "info.main",
+            "&:hover": {
+              backgroundColor: "info.light",
+            },
+            width: "100%", // Make the button full width
+          }}
+        >
+          <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+            + Add New Column
+          </Typography>
+        </Button>
+      </Grid>
+      {/* ... (the rest of your components if any) */}
+    </Grid>
   );
 };
 
