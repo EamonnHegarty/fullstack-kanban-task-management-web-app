@@ -13,9 +13,21 @@ const getBoards = asyncHandler(async (req, res) => {
 // @route POST /api/boards
 // @access PRIVATE
 const createBoard = asyncHandler(async (req, res) => {
-  const boards = await Board.find({}, { boardName: 1 });
-  res.json("request was made thanks");
-  console.log(req);
+  const { boardName, columns } = req.body;
+
+  if (!boardName || boardName.trim().length === 0) {
+    res.status(400);
+    throw new Error("Board name is required");
+  }
+
+  const board = new Board({
+    user: "507f191e810c19729de860ea", // delete in DB while testing, change to userId when added
+    boardName,
+    columns: columns || [],
+  });
+
+  const createdBoard = await board.save();
+  res.status(201).json(createdBoard);
 });
 
 // @desc Fetch a board

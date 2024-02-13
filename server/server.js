@@ -10,8 +10,13 @@ dotenv.config();
 const port = process.env.PORT || 5050;
 
 connectDB();
+
 const app = express();
+
 app.use(cors());
+// Body parse middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
