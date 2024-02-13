@@ -12,8 +12,9 @@ const style = {
   //add some sx:, md: to this
   width: 400,
   bgcolor: "background.paper",
-  border: "0.5px solid #000",
+
   p: 4,
+  borderRadius: 2,
 };
 
 type Modal = {

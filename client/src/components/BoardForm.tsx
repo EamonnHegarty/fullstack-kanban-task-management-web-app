@@ -1,5 +1,12 @@
 import { useState, useCallback, FC } from "react";
-import { Grid, IconButton, TextField, Typography, Button } from "@mui/material";
+import {
+  Grid,
+  IconButton,
+  TextField,
+  Typography,
+  Button,
+  alpha,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 type ColumnTextFieldProps = {
@@ -12,7 +19,7 @@ const ColumnTextField: FC<ColumnTextFieldProps> = (
 ): React.ReactElement => {
   const { value, onDelete } = props;
   return (
-    <Grid container spacing={1} sx={{ mb: 1 }}>
+    <Grid container spacing={1} sx={{}}>
       <Grid item xs={10}>
         <TextField value={value} variant="outlined" fullWidth size="small" />
       </Grid>
@@ -84,7 +91,8 @@ const BoardForm = () => {
             "&:hover": {
               backgroundColor: "info.light",
             },
-            width: "100%", // Make the button full width
+            width: "100%",
+            borderRadius: 8,
           }}
         >
           <Typography variant="body1" sx={{ fontWeight: "bold" }}>
@@ -92,7 +100,25 @@ const BoardForm = () => {
           </Typography>
         </Button>
       </Grid>
-      {/* ... (the rest of your components if any) */}
+      <Grid item>
+        <Button
+          onClick={handleAddColumn}
+          variant="contained"
+          sx={{
+            color: "secondary.light",
+            backgroundColor: "primary.light",
+            "&:hover": {
+              backgroundColor: alpha("#A7A9FC", 0.85),
+            },
+            width: "100%",
+            borderRadius: 8,
+          }}
+        >
+          <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+            Create New Board
+          </Typography>
+        </Button>
+      </Grid>
     </Grid>
   );
 };

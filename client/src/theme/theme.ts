@@ -69,6 +69,7 @@ const lightTheme = createTheme({
     },
     secondary: {
       main: "#ff4081",
+      light: "#FFFFFF",
     },
     text: {
       primary: "#000112",
@@ -97,6 +98,7 @@ const darkTheme = createTheme({
     },
     secondary: {
       main: "#ff4081",
+      light: "#FFFFFF",
     },
     text: {
       primary: "#FFFFFF",

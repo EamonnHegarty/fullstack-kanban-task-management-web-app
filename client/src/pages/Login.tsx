@@ -5,7 +5,7 @@ const Login = () => {
   const { toggleDarkMode } = useTheme();
   return (
     <Box onClick={toggleDarkMode}>
-      <Typography variant="h1">Just checking brudr</Typography>
+      <Typography variant="h1">Login Page will go here eventually</Typography>
     </Box>
   );
 };
