@@ -1,6 +1,6 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import User from "../models/userModel.js";
-import jwt from "jsonwebtoken";
+import generateToken from "../utils/generateToken.js";
 
 // @desc Auth user & get token
 // @route POST /api/users/login
@@ -9,18 +9,9 @@ const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
-  const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-    expiresIn: "1d",
-  });
-  if (user && (await user.matchPassword(password))) {
-    // Set JWT as HTTP-Only Cookie
-    res.cookie("jwt", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV !== "development",
-      sameSite: "strict",
-      maxAge: 1 * 24 * 60 * 60 * 1000, // one day
-    });
 
+  if (user && (await user.matchPassword(password))) {
+    generateToken(res, user._id);
     res.json({
       _id: user._id,
       name: user.name,
@@ -30,21 +21,45 @@ const loginUser = asyncHandler(async (req, res) => {
     res.status(401);
     throw new Error("Invalid Credentials");
   }
-  res.send("auth user");
 });
 
 // @desc Register user & get token
 // @route POST /api/users
 // @access PUBLIC
 const registerUser = asyncHandler(async (req, res) => {
-  res.send("register user");
+  const { name, email, password } = req.body;
+
+  const userExists = await User.findOne({ email });
+
+  if (userExists) {
+    res.status(400);
+    throw new Error("User already exists");
+  }
+
+  const user = await User.create({ name, email, password });
+
+  if (user) {
+    generateToken(res, user._id);
+    res.status(201).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+    });
+  } else {
+    res.status(400);
+    throw new Error("Invalid User Data");
+  }
 });
 
 // @desc Logout user & clear cookie
 // @route POST /api/users/logout
 // @access PRIVATE
 const logoutUser = asyncHandler(async (req, res) => {
-  res.send("logout user");
+  res.cookie("jwt", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+  res.status(200).json({ message: "Logged out successfully" });
 });
 
 export { loginUser, registerUser, logoutUser };
