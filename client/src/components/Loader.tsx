@@ -11,7 +11,7 @@ export const Loader = () => {
         height: "100vh",
       }}
     >
-      <CircularProgress size={100} />
+      <CircularProgress size={100} sx={{ color: "primary.light" }} />
     </Box>
   );
 };
