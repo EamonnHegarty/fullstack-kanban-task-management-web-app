@@ -5,12 +5,15 @@ import { Box } from "@mui/material";
 import { useTheme } from "./theme/useTheme";
 import { ThemeProvider } from "@mui/material/styles";
 import { lightTheme, darkTheme } from "./theme/theme";
+import PrivateRoute from "./components/PrivateRoute";
 
 const AppRouter = () => {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
-      <Route path="/desktop" element={<Desktop />} />
+      <Route path="" element={<PrivateRoute />}>
+        <Route path="/desktop" element={<Desktop />} />
+      </Route>
     </Routes>
   );
 };

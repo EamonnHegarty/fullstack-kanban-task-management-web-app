@@ -88,7 +88,7 @@ type DrawerProps = {
 const Drawer: FC<DrawerProps> = (props): ReactElement => {
   const { data, setOpenCreateBoard, openCreateBoard } = props;
 
-  const { toggleDarkMode } = useTheme();
+  const { toggleDarkMode, darkMode } = useTheme();
 
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(1);
@@ -163,7 +163,11 @@ const Drawer: FC<DrawerProps> = (props): ReactElement => {
         <Box flexGrow={1} />
         <Box display="flex" justifyContent="center" alignItems="center">
           <LightModeIcon sx={{ color: "text.secondary" }} />
-          <StyledSwitch onClick={toggleDarkMode} sx={{ mx: 2 }} />
+          <StyledSwitch
+            onClick={toggleDarkMode}
+            checked={darkMode}
+            sx={{ mx: 2 }}
+          />
           <DarkModeIcon sx={{ color: "text.secondary" }} />
         </Box>
         <IconButton

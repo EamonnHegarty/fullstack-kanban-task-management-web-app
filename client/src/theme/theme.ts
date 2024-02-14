@@ -99,6 +99,7 @@ const darkTheme = createTheme({
     secondary: {
       main: "#ff4081",
       light: "#FFFFFF",
+      dark: alpha("#A7A9FC", 0.9),
     },
     text: {
       primary: "#FFFFFF",
