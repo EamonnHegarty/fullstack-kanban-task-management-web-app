@@ -48,6 +48,7 @@ const ColumnTextField: FC<ColumnTextFieldProps> = (
 const BoardForm = () => {
   const [columns, setColumns] = useState([""]);
   const [boardName, setBoardName] = useState("");
+  const [isColumnEmpty, setIsColumnEmpty] = useState(true); // New state
 
   const [createBoard, { isLoading }] = useCreateBoardMutation();
 
@@ -56,39 +57,47 @@ const BoardForm = () => {
       return;
     }
     setColumns([...columns, ""]);
+    setIsColumnEmpty(true);
   };
+
   const handleColumnChange = useCallback(
     (index: number, newValue: string) => {
-      setColumns(
-        columns.map((column, colIndex) =>
-          colIndex === index ? newValue : column
-        )
+      const updatedColumns = columns.map((column, colIndex) =>
+        colIndex === index ? newValue : column
       );
+      setColumns(updatedColumns);
+      setIsColumnEmpty(updatedColumns.some((column) => column.trim() === ""));
     },
     [columns]
   );
 
   const handleDeleteColumn = useCallback(
     (index: number) => {
-      setColumns(columns.filter((_, colIndex) => colIndex !== index));
+      const updatedColumns = columns.filter(
+        (_, colIndex) => colIndex !== index
+      );
+      setColumns(updatedColumns);
+      setIsColumnEmpty(updatedColumns.some((column) => column.trim() === ""));
     },
     [columns]
   );
 
   const handleOnSubmitForm = useCallback(() => {
-    console.log(isLoading);
+    if (isLoading || isColumnEmpty) return;
+
     const promise = createBoard({
       boardName,
       columns,
     }).unwrap();
     promise
       .then(() => toast.success("Successfully created a new board"))
-      .catch(() => toast.error("Failed to created board"))
+      .catch(() => toast.error("Failed to create board"))
       .finally(() => {
         setBoardName("");
-        setColumns([]);
+        setColumns([""]);
+        setIsColumnEmpty(false);
       });
-  }, [boardName, columns, createBoard, isLoading]);
+  }, [boardName, columns, createBoard, isLoading, isColumnEmpty]);
 
   return (
     <Grid container direction="column" spacing={2}>
@@ -158,6 +167,7 @@ const BoardForm = () => {
             width: "100%",
             borderRadius: 8,
           }}
+          disabled={isColumnEmpty || boardName.length === 0}
         >
           <Typography variant="body1" sx={{ fontWeight: "bold" }}>
             Create New Board

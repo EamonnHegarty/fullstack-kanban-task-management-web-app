@@ -20,10 +20,14 @@ const createBoard = asyncHandler(async (req, res) => {
     throw new Error("Board name is required");
   }
 
+  const formattedColumns = columns.map((columnName) => ({
+    columnName,
+  }));
+
   const board = new Board({
     user: req.user._id,
     boardName,
-    columns: columns || [],
+    columns: formattedColumns,
   });
 
   const createdBoard = await board.save();

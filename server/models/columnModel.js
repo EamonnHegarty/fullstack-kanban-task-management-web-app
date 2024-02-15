@@ -7,7 +7,7 @@ const columnSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    tasks: [tasksSchema],
+    tasks: { type: [tasksSchema], default: [] },
   },
   { timestamps: true }
 );

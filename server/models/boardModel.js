@@ -12,7 +12,7 @@ const boardSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    columns: [columnSchema],
+    columns: { type: [columnSchema], default: [] },
   },
   { timestamps: true }
 );

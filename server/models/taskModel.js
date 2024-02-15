@@ -11,7 +11,7 @@ const tasksSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    subtasks: [subtaskSchema],
+    subtasks: { type: [subtaskSchema], default: [] },
   },
   { timestamps: true }
 );
