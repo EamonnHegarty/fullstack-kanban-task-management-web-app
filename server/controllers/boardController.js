@@ -5,7 +5,7 @@ import Board from "../models/boardModel.js";
 // @route GET /api/boards
 // @access PRIVATE
 const getBoards = asyncHandler(async (req, res) => {
-  const boards = await Board.find({}, { boardName: 1 });
+  const boards = await Board.find({ user: req.user._id }, { boardName: 1 });
   res.json(boards);
 });
 
