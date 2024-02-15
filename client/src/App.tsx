@@ -6,6 +6,8 @@ import { useTheme } from "./theme/useTheme";
 import { ThemeProvider } from "@mui/material/styles";
 import { lightTheme, darkTheme } from "./theme/theme";
 import PrivateRoute from "./components/PrivateRoute";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AppRouter = () => {
   return (
@@ -32,6 +34,7 @@ function App() {
           <AppRouter />
         </Box>
       </ThemeProvider>
+      <ToastContainer />
     </Router>
   );
 }
