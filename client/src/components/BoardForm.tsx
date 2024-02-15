@@ -12,16 +12,23 @@ import CloseIcon from "@mui/icons-material/Close";
 type ColumnTextFieldProps = {
   value: string;
   onDelete: () => void;
+  onChange: (value: string) => void;
 };
 
 const ColumnTextField: FC<ColumnTextFieldProps> = (
   props
 ): React.ReactElement => {
-  const { value, onDelete } = props;
+  const { value, onDelete, onChange } = props;
   return (
-    <Grid container spacing={1} sx={{}}>
+    <Grid container spacing={1}>
       <Grid item xs={10}>
-        <TextField value={value} variant="outlined" fullWidth size="small" />
+        <TextField
+          value={value}
+          variant="outlined"
+          fullWidth
+          size="small"
+          onChange={(e) => onChange(e.target.value)}
+        />
       </Grid>
       <Grid
         item
@@ -45,6 +52,16 @@ const BoardForm = () => {
     }
     setColumns([...columns, ""]);
   };
+  const handleColumnChange = useCallback(
+    (index: number, newValue: string) => {
+      setColumns(
+        columns.map((column, colIndex) =>
+          colIndex === index ? newValue : column
+        )
+      );
+    },
+    [columns]
+  );
 
   const handleDeleteColumn = useCallback(
     (index: number) => {
@@ -52,6 +69,10 @@ const BoardForm = () => {
     },
     [columns]
   );
+
+  const handleOnSubmitForm = useCallback(() => {
+    console.log(columns);
+  }, [columns]);
 
   return (
     <Grid container direction="column" spacing={2}>
@@ -76,6 +97,7 @@ const BoardForm = () => {
       {columns.map((column, index) => (
         <Grid item key={index}>
           <ColumnTextField
+            onChange={(newValue) => handleColumnChange(index, newValue)}
             value={column}
             onDelete={() => handleDeleteColumn(index)}
           />
@@ -102,7 +124,7 @@ const BoardForm = () => {
       </Grid>
       <Grid item>
         <Button
-          onClick={handleAddColumn}
+          onClick={handleOnSubmitForm}
           variant="contained"
           sx={{
             color: "secondary.light",
