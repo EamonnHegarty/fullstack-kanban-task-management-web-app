@@ -8,6 +8,8 @@ import {
   alpha,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { useCreateBoardMutation } from "../slices/boardsApiSlice";
+import { toast } from "react-toastify";
 
 type ColumnTextFieldProps = {
   value: string;
@@ -45,6 +47,9 @@ const ColumnTextField: FC<ColumnTextFieldProps> = (
 
 const BoardForm = () => {
   const [columns, setColumns] = useState([""]);
+  const [boardName, setBoardName] = useState("");
+
+  const [createBoard, { isLoading }] = useCreateBoardMutation();
 
   const handleAddColumn = () => {
     if (columns.length >= 3) {
@@ -71,8 +76,19 @@ const BoardForm = () => {
   );
 
   const handleOnSubmitForm = useCallback(() => {
-    console.log(columns);
-  }, [columns]);
+    console.log(isLoading);
+    const promise = createBoard({
+      boardName,
+      columns,
+    }).unwrap();
+    promise
+      .then(() => toast.success("Successfully created a new board"))
+      .catch(() => toast.error("Failed to created board"))
+      .finally(() => {
+        setBoardName("");
+        setColumns([]);
+      });
+  }, [boardName, columns, createBoard, isLoading]);
 
   return (
     <Grid container direction="column" spacing={2}>
@@ -87,7 +103,14 @@ const BoardForm = () => {
         </Typography>
       </Grid>
       <Grid item>
-        <TextField id="board-name" variant="outlined" fullWidth size="small" />
+        <TextField
+          id="board-name"
+          variant="outlined"
+          fullWidth
+          size="small"
+          value={boardName}
+          onChange={(e) => setBoardName(e.target.value)}
+        />
       </Grid>
       <Grid item>
         <Typography variant="body2" sx={{ color: "text.secondary" }}>

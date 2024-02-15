@@ -21,7 +21,7 @@ const createBoard = asyncHandler(async (req, res) => {
   }
 
   const board = new Board({
-    user: "507f191e810c19729de860ea", // delete in DB while testing, change to userId when added
+    user: req.user._id,
     boardName,
     columns: columns || [],
   });

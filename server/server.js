@@ -5,7 +5,6 @@ import { connectDB } from "./config/db.js";
 import boardRoutes from "./routes/boardRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
-import cors from "cors";
 
 dotenv.config();
 
@@ -15,7 +14,6 @@ connectDB();
 
 const app = express();
 
-app.use(cors());
 // Body parse middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
