@@ -83,15 +83,22 @@ type DrawerProps = {
   data: Array<Boards>;
   setOpenCreateBoard: Dispatch<SetStateAction<boolean>>;
   openCreateBoard: boolean;
+  selectedId: number;
+  handleOnSelectionMade: (id: number) => void;
 };
 
 const Drawer: FC<DrawerProps> = (props): ReactElement => {
-  const { data, setOpenCreateBoard, openCreateBoard } = props;
+  const {
+    data,
+    setOpenCreateBoard,
+    openCreateBoard,
+    selectedId,
+    handleOnSelectionMade,
+  } = props;
 
   const { toggleDarkMode, darkMode } = useTheme();
 
   const [open, setOpen] = useState(false);
-  const [selectedId, setSelectedId] = useState(1);
 
   const handleDrawerOpen = useCallback(() => {
     setOpen(true);
@@ -99,10 +106,6 @@ const Drawer: FC<DrawerProps> = (props): ReactElement => {
 
   const handleDrawerClose = useCallback(() => {
     setOpen(false);
-  }, []);
-
-  const handleOnSelectionMade = useCallback((id: number) => {
-    setSelectedId(id);
   }, []);
 
   return (

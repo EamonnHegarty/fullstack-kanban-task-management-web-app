@@ -16,7 +16,17 @@ export const boardsApiSlice = apiSlice.injectEndpoints({
         body: { ...data },
       }),
     }),
+    getBoardById: builder.query({
+      query: (id) => ({
+        url: `${BOARDS_URL}/${id}`,
+      }),
+      keepUnusedDataFor: 5,
+    }),
   }),
 });
 
-export const { useGetBoardsQuery, useCreateBoardMutation } = boardsApiSlice;
+export const {
+  useGetBoardsQuery,
+  useCreateBoardMutation,
+  useGetBoardByIdQuery,
+} = boardsApiSlice;
