@@ -1,4 +1,4 @@
 export type Boards = {
-  _id: number;
+  _id: string;
   boardName: string;
 };

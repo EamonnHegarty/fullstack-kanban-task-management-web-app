@@ -83,8 +83,8 @@ type DrawerProps = {
   data: Array<Boards>;
   setOpenCreateBoard: Dispatch<SetStateAction<boolean>>;
   openCreateBoard: boolean;
-  selectedId: number;
-  handleOnSelectionMade: (id: number) => void;
+  selectedId: string | null;
+  handleOnSelectionMade: (id: string) => void;
 };
 
 const Drawer: FC<DrawerProps> = (props): ReactElement => {

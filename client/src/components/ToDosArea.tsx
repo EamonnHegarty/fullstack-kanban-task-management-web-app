@@ -1,7 +1,7 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { FC, ReactElement } from "react";
 import TaskCard from "./TaskCard";
-// Define the structure for a subtask
+
 type Subtask = {
   subtaskTitle: string;
   completed: boolean;
@@ -10,7 +10,6 @@ type Subtask = {
   updatedAt: string;
 };
 
-// Define the structure for a task
 type Task = {
   taskTitle: string;
   taskDescription: string;
@@ -20,7 +19,6 @@ type Task = {
   updatedAt: string;
 };
 
-// Define the structure for a column
 type Column = {
   columnName: string;
   tasks: Task[];
@@ -29,7 +27,6 @@ type Column = {
   updatedAt: string;
 };
 
-// Define the structure for the board data expected by ToDosArea
 type BoardData = {
   _id: string;
   user: string;
@@ -69,9 +66,9 @@ const ToDosArea: FC<ToDosAreaProps> = (props): ReactElement => {
   const columns = data?.columns;
 
   return (
-    <Grid container spacing={2}>
+    <Grid container display="flex" justifyContent="center" spacing={5} p={3}>
       {columns?.map((column, index) => (
-        <Grid item key={index} xs={12} sm={6} md={4} lg={3} m={2}>
+        <Grid item key={index} xs={12} sm={6} md={4} lg={4}>
           <KanbanColumn {...column} />
         </Grid>
       ))}

@@ -48,7 +48,7 @@ const ColumnTextField: FC<ColumnTextFieldProps> = (
 const BoardForm = () => {
   const [columns, setColumns] = useState([""]);
   const [boardName, setBoardName] = useState("");
-  const [isColumnEmpty, setIsColumnEmpty] = useState(true); // New state
+  const [isColumnEmpty, setIsColumnEmpty] = useState(true);
 
   const [createBoard, { isLoading }] = useCreateBoardMutation();
 

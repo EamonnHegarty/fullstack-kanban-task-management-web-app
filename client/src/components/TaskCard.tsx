@@ -15,6 +15,11 @@ const TaskCard = (props: TaskCardProps) => {
         mt: 2,
         backgroundColor: "background.default",
         borderRadius: "8px",
+        cursor: "pointer",
+        "&:hover": {
+          color: "primary.light",
+        },
+        maxWidth: 400,
       }}
     >
       <CardContent>
