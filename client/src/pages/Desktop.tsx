@@ -19,8 +19,6 @@ const Desktop = () => {
     skip: selectedId === 0,
   });
 
-  console.log(dataForBoard);
-
   const handleOnSelectionMade = useCallback((id: number) => {
     setSelectedId(id);
   }, []);
@@ -42,7 +40,13 @@ const Desktop = () => {
         }}
       >
         <Navbar />
-        <ToDosArea />
+        <Box
+          minHeight="90vh"
+          sx={{ backgroundColor: "background.paper", margin: 0 }}
+        >
+          <ToDosArea data={dataForBoard} />
+        </Box>
+
         {openCreateBoard && (
           <Modal
             openCreateBoard={openCreateBoard}

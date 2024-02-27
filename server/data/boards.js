@@ -12,7 +12,7 @@ const boards = [
             taskTitle: "Finalize UI/UX designs",
             taskDescription:
               "Complete the design adjustments based on the latest user feedback and prepare the final UI/UX assets for development.",
-            subTasks: [
+            subtasks: [
               {
                 id: 1,
                 subtaskTitle: "Integrate user feedback on dashboard design",
@@ -31,7 +31,7 @@ const boards = [
             taskTitle: "Develop frontend and backend",
             taskDescription:
               "Implement the frontend and backend functionalities as per the finalized specifications.",
-            subTasks: [
+            subtasks: [
               {
                 id: 3,
                 subtaskTitle: "Set up authentication and user management",
@@ -71,7 +71,7 @@ const boards = [
             taskTitle: "Social media campaign",
             taskDescription:
               "Launch a social media campaign to increase brand awareness and engagement prior to product launch.",
-            subTasks: [
+            subtasks: [
               {
                 id: 5,
                 subtaskTitle: "Create campaign content calendar",
@@ -89,7 +89,7 @@ const boards = [
             taskTitle: "Email marketing",
             taskDescription:
               "Design and send a series of email newsletters to our subscriber list to build anticipation for the launch.",
-            subTasks: [
+            subtasks: [
               {
                 id: 7,
                 subtaskTitle: "Segment email list for targeted messaging",
@@ -129,7 +129,7 @@ const boards = [
             taskTitle: "Q1-Q2 feature planning",
             taskDescription:
               "Outline the key features and updates planned for the first half of the year.",
-            subTasks: [
+            subtasks: [
               {
                 id: 9,
                 subtaskTitle: "Gather feature requests from customer feedback",
@@ -147,7 +147,7 @@ const boards = [
             taskTitle: "Research and development",
             taskDescription:
               "Initiate R&D projects for innovative features to be included in future releases.",
-            subTasks: [
+            subtasks: [
               {
                 id: 11,
                 subtaskTitle: "Explore AI integration possibilities",
