@@ -6,7 +6,6 @@ import { Form } from "./Form";
 const AddBoardForm = () => {
   const [columns, setColumns] = useState([""]);
   const [boardName, setBoardName] = useState("");
-  const [isColumnEmpty, setIsColumnEmpty] = useState(true);
 
   const [createBoard, { isLoading }] = useCreateBoardMutation();
 
@@ -20,7 +19,7 @@ const AddBoardForm = () => {
   ];
 
   const handleOnSubmitForm = useCallback(() => {
-    if (isLoading || isColumnEmpty) return;
+    if (isLoading) return;
 
     const promise = createBoard({
       boardName,
@@ -32,9 +31,8 @@ const AddBoardForm = () => {
       .finally(() => {
         setBoardName("");
         setColumns([""]);
-        setIsColumnEmpty(false);
       });
-  }, [boardName, columns, createBoard, isLoading, isColumnEmpty]);
+  }, [boardName, columns, createBoard, isLoading]);
 
   return (
     <Form
