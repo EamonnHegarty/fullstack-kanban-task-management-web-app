@@ -1,114 +1,37 @@
-import { useState, useCallback, FC } from "react";
-import {
-  Grid,
-  IconButton,
-  TextField,
-  Typography,
-  Button,
-  alpha,
-} from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import { useCreateBoardMutation } from "../slices/boardsApiSlice";
-import { toast } from "react-toastify";
+import { Button, Grid, TextField, Typography, alpha } from "@mui/material";
+import React, { FC, useCallback, useEffect, useState } from "react";
+import { ColumnTextField } from "./ColumnTextField";
 
-type ColumnTextFieldProps = {
+type FormDataEntry = {
+  id: number;
+  title: string;
   value: string;
-  onDelete: () => void;
   onChange: (value: string) => void;
 };
 
-const ColumnTextField: FC<ColumnTextFieldProps> = (
-  props
-): React.ReactElement => {
-  const { value, onDelete, onChange } = props;
-  return (
-    <Grid container spacing={1}>
-      <Grid item xs={10}>
-        <TextField
-          value={value}
-          variant="outlined"
-          fullWidth
-          size="small"
-          onChange={(e) => onChange(e.target.value)}
-        />
-      </Grid>
-      <Grid
-        item
-        xs={2}
-        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
-      >
-        <IconButton onClick={onDelete}>
-          <CloseIcon sx={{ color: "text.secondary" }} />
-        </IconButton>
-      </Grid>
-    </Grid>
-  );
+type FormProps = {
+  formTitle: string;
+  columns: string[];
+  formDataEntryData: FormDataEntry[];
+  setColumns: (columns: string[]) => void;
+
+  handleOnSubmitForm: () => void;
 };
 
-const BoardForm = () => {
-  const [columns, setColumns] = useState([""]);
-  const [boardName, setBoardName] = useState("");
-  const [isColumnEmpty, setIsColumnEmpty] = useState(true);
+type FormDataEntryProps = {
+  title: string;
+  value: string;
+  onChange: (value: string) => void;
+};
 
-  const [createBoard, { isLoading }] = useCreateBoardMutation();
-
-  const handleAddColumn = () => {
-    if (columns.length >= 3) {
-      return;
-    }
-    setColumns([...columns, ""]);
-    setIsColumnEmpty(true);
-  };
-
-  const handleColumnChange = useCallback(
-    (index: number, newValue: string) => {
-      const updatedColumns = columns.map((column, colIndex) =>
-        colIndex === index ? newValue : column
-      );
-      setColumns(updatedColumns);
-      setIsColumnEmpty(updatedColumns.some((column) => column.trim() === ""));
-    },
-    [columns]
-  );
-
-  const handleDeleteColumn = useCallback(
-    (index: number) => {
-      const updatedColumns = columns.filter(
-        (_, colIndex) => colIndex !== index
-      );
-      setColumns(updatedColumns);
-      setIsColumnEmpty(updatedColumns.some((column) => column.trim() === ""));
-    },
-    [columns]
-  );
-
-  const handleOnSubmitForm = useCallback(() => {
-    if (isLoading || isColumnEmpty) return;
-
-    const promise = createBoard({
-      boardName,
-      columns,
-    }).unwrap();
-    promise
-      .then(() => toast.success("Successfully created a new board"))
-      .catch(() => toast.error("Failed to create board"))
-      .finally(() => {
-        setBoardName("");
-        setColumns([""]);
-        setIsColumnEmpty(false);
-      });
-  }, [boardName, columns, createBoard, isLoading, isColumnEmpty]);
+const FormDataEntry: FC<FormDataEntryProps> = (props): React.ReactElement => {
+  const { title, value, onChange } = props;
 
   return (
-    <Grid container direction="column" spacing={2}>
-      <Grid item>
-        <Typography variant="h2" sx={{ color: "text.primary" }}>
-          Add New Board
-        </Typography>
-      </Grid>
+    <>
       <Grid item>
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          Board Name
+          {title}
         </Typography>
       </Grid>
       <Grid item>
@@ -117,10 +40,75 @@ const BoardForm = () => {
           variant="outlined"
           fullWidth
           size="small"
-          value={boardName}
-          onChange={(e) => setBoardName(e.target.value)}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
         />
       </Grid>
+    </>
+  );
+};
+
+const Form: FC<FormProps> = (props): React.ReactElement => {
+  const {
+    columns,
+    formTitle,
+    handleOnSubmitForm,
+    setColumns,
+    formDataEntryData,
+  } = props;
+
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  const handleAddColumn = () => {
+    if (columns.length >= 3) {
+      return;
+    }
+    setColumns([...columns, ""]);
+  };
+
+  const handleColumnChange = useCallback(
+    (index: number, newValue: string) => {
+      const updatedColumns = columns.map((column, colIndex) =>
+        colIndex === index ? newValue : column
+      );
+      setColumns(updatedColumns);
+    },
+    [columns, setColumns]
+  );
+
+  const handleDeleteColumn = useCallback(
+    (index: number) => {
+      const updatedColumns = columns.filter(
+        (_, colIndex) => colIndex !== index
+      );
+      setColumns(updatedColumns);
+    },
+    [columns, setColumns]
+  );
+
+  useEffect(() => {
+    const isAnyEntryEmpty = formDataEntryData.some(
+      (entry) => entry.value.trim() === ""
+    );
+    const areColumnsValid = columns.every((column) => column.trim() !== "");
+    setIsFormValid(!isAnyEntryEmpty && areColumnsValid && columns.length > 0);
+  }, [formDataEntryData, columns]);
+
+  return (
+    <Grid container direction="column" spacing={2}>
+      <Grid item>
+        <Typography variant="h2" sx={{ color: "text.primary" }}>
+          {formTitle}
+        </Typography>
+      </Grid>
+      {formDataEntryData.map((entry) => (
+        <FormDataEntry
+          key={entry.id}
+          title={entry.title}
+          value={entry.value}
+          onChange={entry.onChange}
+        />
+      ))}
       <Grid item>
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
           Board Columns
@@ -167,7 +155,7 @@ const BoardForm = () => {
             width: "100%",
             borderRadius: 8,
           }}
-          disabled={isColumnEmpty || boardName.length === 0}
+          disabled={!isFormValid}
         >
           <Typography variant="body1" sx={{ fontWeight: "bold" }}>
             Create New Board
@@ -178,4 +166,4 @@ const BoardForm = () => {
   );
 };
 
-export default BoardForm;
+export { Form };

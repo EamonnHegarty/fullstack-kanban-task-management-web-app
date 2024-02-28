@@ -8,7 +8,7 @@ import {
 } from "../slices/boardsApiSlice";
 import { useCallback, useState } from "react";
 import { Modal } from "../components/Modal";
-import BoardForm from "../components/BoardForm";
+import { AddBoardForm } from "../components/AddBoardForm";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { setSelectedBoardId, setSelectedBoardName } from "../slices/appSlice";
 
@@ -60,7 +60,7 @@ const Desktop = () => {
           <Modal
             openCreateBoard={openCreateBoard}
             setOpenCreateBoard={setOpenCreateBoard}
-            FormComponent={<BoardForm />}
+            FormComponent={<AddBoardForm />}
           />
         )}
       </Box>
