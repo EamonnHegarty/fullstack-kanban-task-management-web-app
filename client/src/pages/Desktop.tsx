@@ -10,7 +10,7 @@ import { useCallback, useState } from "react";
 import { Modal } from "../components/Modal";
 import BoardForm from "../components/BoardForm";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { setSelectedBoardId } from "../slices/appSlice";
+import { setSelectedBoardId, setSelectedBoardName } from "../slices/appSlice";
 
 const Desktop = () => {
   const [openCreateBoard, setOpenCreateBoard] = useState(false);
@@ -25,8 +25,9 @@ const Desktop = () => {
   });
 
   const handleOnSelectionMade = useCallback(
-    (id: string) => {
+    (id: string, boardName: string) => {
       dispatch(setSelectedBoardId(id));
+      dispatch(setSelectedBoardName(boardName));
     },
     [dispatch]
   );

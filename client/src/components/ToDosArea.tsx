@@ -1,41 +1,7 @@
 import { Grid, Typography } from "@mui/material";
 import { FC, ReactElement } from "react";
 import TaskCard from "./TaskCard";
-
-type Subtask = {
-  subtaskTitle: string;
-  completed: boolean;
-  _id: string;
-  createdAt: string;
-  updatedAt: string;
-};
-
-type Task = {
-  taskTitle: string;
-  taskDescription: string;
-  subtasks: Subtask[];
-  _id: string;
-  createdAt: string;
-  updatedAt: string;
-};
-
-type Column = {
-  columnName: string;
-  tasks: Task[];
-  _id: string;
-  createdAt: string;
-  updatedAt: string;
-};
-
-type BoardData = {
-  _id: string;
-  user: string;
-  boardName: string;
-  columns: Column[];
-  __v: number;
-  createdAt: string;
-  updatedAt: string;
-};
+import { BoardData, Column } from "../types/BoardsData";
 
 type ToDosAreaProps = {
   data: BoardData;
@@ -53,7 +19,6 @@ const KanbanColumn = ({ columnName, tasks }: Column) => {
           key={index}
           title={task.taskTitle}
           numTasks={2}
-          {...task}
         />
       ))}
     </>

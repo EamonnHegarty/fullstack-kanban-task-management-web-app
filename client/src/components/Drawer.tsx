@@ -84,7 +84,7 @@ type DrawerProps = {
   setOpenCreateBoard: Dispatch<SetStateAction<boolean>>;
   openCreateBoard: boolean;
   selectedId: string | null;
-  handleOnSelectionMade: (id: string) => void;
+  handleOnSelectionMade: (id: string, boardName: string) => void;
 };
 
 const Drawer: FC<DrawerProps> = (props): ReactElement => {
@@ -108,6 +108,13 @@ const Drawer: FC<DrawerProps> = (props): ReactElement => {
     setOpen(false);
   }, []);
 
+  const handleOnUserSelectBoard = useCallback(
+    (id: string, boardName: string) => {
+      handleOnSelectionMade(id, boardName);
+    },
+    [handleOnSelectionMade]
+  );
+
   return (
     <StyledDrawer
       variant="permanent"
@@ -127,7 +134,9 @@ const Drawer: FC<DrawerProps> = (props): ReactElement => {
               <ListItemButton
                 key={data._id}
                 selected={data._id === selectedId}
-                onClick={() => handleOnSelectionMade(data._id)}
+                onClick={() => {
+                  handleOnUserSelectBoard(data._id, data.boardName);
+                }}
                 sx={{
                   "&.Mui-selected, &.Mui-selected:hover": {
                     backgroundColor: "primary.light",

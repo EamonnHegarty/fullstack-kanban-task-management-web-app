@@ -5,8 +5,11 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { useAppSelector } from "../hooks";
 
 const Navbar = () => {
+  const { selectedBoardName } = useAppSelector((state) => state.app);
+
   return (
     <Box
       sx={{ minHeight: "10vh" }}
@@ -21,7 +24,7 @@ const Navbar = () => {
       >
         <Toolbar>
           <Typography variant="h1" sx={{ flexGrow: 1, color: "text.main" }}>
-            Platform Launch
+            {selectedBoardName}
           </Typography>
           <Button color="inherit">+ Add new task</Button>
           <IconButton color="inherit">

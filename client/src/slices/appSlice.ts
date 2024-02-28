@@ -2,10 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 type AppSlice = {
   selectedBoardId: string | null;
+  selectedBoardName: string;
 };
 
 const initialState: AppSlice = {
   selectedBoardId: null,
+  selectedBoardName: "",
 };
 const appSlice = createSlice({
   name: "app",
@@ -14,9 +16,12 @@ const appSlice = createSlice({
     setSelectedBoardId: (state, action) => {
       state.selectedBoardId = action.payload;
     },
+    setSelectedBoardName: (state, action) => {
+      state.selectedBoardName = action.payload;
+    },
   },
 });
 
-export const { setSelectedBoardId } = appSlice.actions;
+export const { setSelectedBoardId, setSelectedBoardName } = appSlice.actions;
 
 export default appSlice.reducer;
