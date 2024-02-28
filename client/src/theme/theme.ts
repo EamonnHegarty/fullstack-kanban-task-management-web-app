@@ -41,7 +41,7 @@ const components = {
     styleOverrides: {
       root: ({ theme }: { theme: Theme }) => ({
         "&:hover": {
-          backgroundColor: alpha(theme.palette.primary.light, 0.12),
+          backgroundColor: alpha(theme.palette.primary.light, 0.35),
         },
       }),
     },
@@ -54,6 +54,15 @@ const components = {
         },
         "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
           borderColor: theme.palette.primary.light,
+        },
+      }),
+    },
+  },
+  MuiButton: {
+    styleOverrides: {
+      root: ({ theme }: { theme: Theme }) => ({
+        "&:hover": {
+          backgroundColor: alpha(theme.palette.primary.light, 0.35),
         },
       }),
     },

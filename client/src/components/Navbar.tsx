@@ -20,13 +20,28 @@ const Navbar = () => {
       <AppBar
         position="sticky"
         elevation={0}
-        sx={{ backgroundColor: "background.default", color: "text.primary" }}
+        sx={{
+          backgroundColor: "background.default",
+          color: "text.primary",
+
+          justifyContent: "center",
+        }}
       >
         <Toolbar>
           <Typography variant="h1" sx={{ flexGrow: 1, color: "text.main" }}>
             {selectedBoardName}
           </Typography>
-          <Button color="inherit">+ Add new task</Button>
+          <Button
+            sx={{
+              backgroundColor: "primary.light",
+              color: "white",
+              borderRadius: 8,
+              minWidth: "200px",
+              mr: 1,
+            }}
+          >
+            + Add new task
+          </Button>
           <IconButton color="inherit">
             <MoreVertIcon />
           </IconButton>
