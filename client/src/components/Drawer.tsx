@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { useTheme } from "../theme/useTheme";
 import MuiDrawer from "@mui/material/Drawer";
-import { FC, ReactElement, useCallback, useState } from "react";
+import { FC, ReactElement, useState } from "react";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
@@ -96,24 +96,21 @@ const Drawer: FC<DrawerProps> = (props): ReactElement => {
 
   const [open, setOpen] = useState(false);
 
-  const handleDrawerOpen = useCallback(() => {
+  const handleDrawerOpen = () => {
     setOpen(true);
-  }, []);
+  };
 
-  const handleDrawerClose = useCallback(() => {
+  const handleDrawerClose = () => {
     setOpen(false);
-  }, []);
+  };
 
-  const handleOnUserSelectBoard = useCallback(
-    (id: string, boardName: string) => {
-      handleOnSelectionMade(id, boardName);
-    },
-    [handleOnSelectionMade]
-  );
+  const handleOnUserSelectBoard = (id: string, boardName: string) => {
+    handleOnSelectionMade(id, boardName);
+  };
 
-  const handleOnOpenBoardForm = useCallback(() => {
+  const handleOnOpenBoardForm = () => {
     dispatch(setOpenBoardForm(!openBoardForm));
-  }, [dispatch, openBoardForm, setOpenBoardForm]);
+  };
 
   return (
     <StyledDrawer

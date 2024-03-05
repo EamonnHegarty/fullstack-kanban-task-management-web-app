@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { useCreateBoardMutation } from "../slices/boardsApiSlice";
 import { toast } from "react-toastify";
 import { Form } from "./Form";
@@ -18,7 +18,7 @@ const BoardForm = () => {
     },
   ];
 
-  const handleOnSubmitForm = useCallback(() => {
+  const handleOnSubmitForm = () => {
     if (isLoading) return;
 
     const promise = createBoard({
@@ -32,7 +32,7 @@ const BoardForm = () => {
         setBoardName("");
         setColumns([""]);
       });
-  }, [boardName, columns, createBoard, isLoading]);
+  };
 
   return (
     <Form

@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import { setIsEditingBoard } from "../slices/appSlice";
 import React from "react";
 import { Menu, MenuItem } from "@mui/material";
+import { setOpenBoardForm } from "../slices/appSlice";
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -27,6 +28,7 @@ const Navbar = () => {
   };
 
   const handleEditBoardClick = () => {
+    dispatch(setOpenBoardForm(true));
     dispatch(setIsEditingBoard(true));
     handleClose();
   };

@@ -6,7 +6,6 @@ import {
   useGetBoardByIdQuery,
   useGetBoardsQuery,
 } from "../slices/boardsApiSlice";
-import { useCallback } from "react";
 import { Modal } from "../components/Modal";
 import { BoardForm } from "../components/BoardForm";
 import { useAppDispatch, useAppSelector } from "../hooks";
@@ -28,13 +27,10 @@ const Desktop = () => {
     skip: selectedBoardId === null,
   });
 
-  const handleOnSelectionMade = useCallback(
-    (id: string, boardName: string) => {
-      dispatch(setSelectedBoardId(id));
-      dispatch(setSelectedBoardName(boardName));
-    },
-    [dispatch]
-  );
+  const handleOnSelectionMade = (id: string, boardName: string) => {
+    dispatch(setSelectedBoardId(id));
+    dispatch(setSelectedBoardName(boardName));
+  };
 
   return (
     <Box sx={{ display: "flex", height: "100vh" }}>

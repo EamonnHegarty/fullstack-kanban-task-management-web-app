@@ -1,4 +1,4 @@
-import { FC, ReactElement, useCallback } from "react";
+import { FC, ReactElement } from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import { Modal as MuiModal } from "@mui/material";
@@ -30,9 +30,9 @@ const Modal: FC<Modal> = (props): React.ReactElement => {
 
   const dispatch = useAppDispatch();
 
-  const handleOnCloseForm = useCallback(() => {
+  const handleOnCloseForm = () => {
     dispatch(setOpenForm(false));
-  }, [dispatch, setOpenForm]);
+  };
 
   return (
     <div>

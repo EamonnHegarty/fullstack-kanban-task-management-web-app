@@ -1,5 +1,5 @@
 import { Button, Grid, TextField, Typography, alpha } from "@mui/material";
-import React, { FC, useCallback, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { ColumnTextField } from "./ColumnTextField";
 
 type FormDataEntry = {
@@ -14,7 +14,6 @@ type FormProps = {
   columns: string[];
   formDataEntryData: FormDataEntry[];
   setColumns: (columns: string[]) => void;
-
   handleOnSubmitForm: () => void;
 };
 
@@ -66,25 +65,17 @@ const Form: FC<FormProps> = (props): React.ReactElement => {
     setColumns([...columns, ""]);
   };
 
-  const handleColumnChange = useCallback(
-    (index: number, newValue: string) => {
-      const updatedColumns = columns.map((column, colIndex) =>
-        colIndex === index ? newValue : column
-      );
-      setColumns(updatedColumns);
-    },
-    [columns, setColumns]
-  );
+  const handleColumnChange = (index: number, newValue: string) => {
+    const updatedColumns = columns.map((column, colIndex) =>
+      colIndex === index ? newValue : column
+    );
+    setColumns(updatedColumns);
+  };
 
-  const handleDeleteColumn = useCallback(
-    (index: number) => {
-      const updatedColumns = columns.filter(
-        (_, colIndex) => colIndex !== index
-      );
-      setColumns(updatedColumns);
-    },
-    [columns, setColumns]
-  );
+  const handleDeleteColumn = (index: number) => {
+    const updatedColumns = columns.filter((_, colIndex) => colIndex !== index);
+    setColumns(updatedColumns);
+  };
 
   useEffect(() => {
     const isAnyEntryEmpty = formDataEntryData.some(

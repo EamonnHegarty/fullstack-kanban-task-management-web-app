@@ -1,10 +1,4 @@
-import React, {
-  FC,
-  ReactElement,
-  useState,
-  useEffect,
-  useCallback,
-} from "react";
+import React, { FC, ReactElement, useState, useEffect } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -38,23 +32,19 @@ export const Login: FC = (): ReactElement => {
     }
   }, [userInfo, navigate]);
 
-  const handleOnEmailChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const { value }: { value: string } = event.target;
-      setEmail(value);
-    },
-    []
-  );
+  const handleOnEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value }: { value: string } = event.target;
+    setEmail(value);
+  };
 
-  const handleOnPasswordChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const { value }: { value: string } = event.target;
-      setPassword(value);
-    },
-    []
-  );
+  const handleOnPasswordChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { value }: { value: string } = event.target;
+    setPassword(value);
+  };
 
-  const handleOnSubmitForm = useCallback(() => {
+  const handleOnSubmitForm = () => {
     const promise = login({ email, password }).unwrap();
 
     promise
@@ -71,7 +61,7 @@ export const Login: FC = (): ReactElement => {
         setEmail("");
         setPassword("");
       });
-  }, [dispatch, email, login, navigate, password]);
+  };
 
   return (
     <>
