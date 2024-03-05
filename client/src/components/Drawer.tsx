@@ -13,20 +13,15 @@ import {
 } from "@mui/material";
 import { useTheme } from "../theme/useTheme";
 import MuiDrawer from "@mui/material/Drawer";
-import {
-  Dispatch,
-  FC,
-  ReactElement,
-  SetStateAction,
-  useCallback,
-  useState,
-} from "react";
+import { FC, ReactElement, useCallback, useState } from "react";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { Boards } from "../types/Boards";
+import { useAppDispatch } from "../hooks";
+import { UnknownAction } from "@reduxjs/toolkit";
 
 const DRAWER_WIDTH = 240;
 
@@ -81,8 +76,8 @@ const StyledSwitch = styled(Switch)(({ theme }) => ({
 
 type DrawerProps = {
   data: Array<Boards>;
-  setOpenCreateBoard: Dispatch<SetStateAction<boolean>>;
-  openCreateBoard: boolean;
+  setOpenBoardForm: (value: boolean) => UnknownAction;
+  openBoardForm: boolean;
   selectedId: string | null;
   handleOnSelectionMade: (id: string, boardName: string) => void;
 };
@@ -90,13 +85,14 @@ type DrawerProps = {
 const Drawer: FC<DrawerProps> = (props): ReactElement => {
   const {
     data,
-    setOpenCreateBoard,
-    openCreateBoard,
+    setOpenBoardForm,
+    openBoardForm,
     selectedId,
     handleOnSelectionMade,
   } = props;
 
   const { toggleDarkMode, darkMode } = useTheme();
+  const dispatch = useAppDispatch();
 
   const [open, setOpen] = useState(false);
 
@@ -114,6 +110,10 @@ const Drawer: FC<DrawerProps> = (props): ReactElement => {
     },
     [handleOnSelectionMade]
   );
+
+  const handleOnOpenBoardForm = useCallback(() => {
+    dispatch(setOpenBoardForm(!openBoardForm));
+  }, [dispatch, openBoardForm, setOpenBoardForm]);
 
   return (
     <StyledDrawer
@@ -155,7 +155,7 @@ const Drawer: FC<DrawerProps> = (props): ReactElement => {
               </ListItemButton>
             ))}
             <ListItemButton
-              onClick={() => setOpenCreateBoard(!openCreateBoard)}
+              onClick={handleOnOpenBoardForm}
               sx={{
                 color: "primary.light",
               }}

@@ -3,7 +3,7 @@ import { useCreateBoardMutation } from "../slices/boardsApiSlice";
 import { toast } from "react-toastify";
 import { Form } from "./Form";
 
-const AddBoardForm = () => {
+const BoardForm = () => {
   const [columns, setColumns] = useState([""]);
   const [boardName, setBoardName] = useState("");
 
@@ -45,4 +45,4 @@ const AddBoardForm = () => {
   );
 };
 
-export { AddBoardForm };
+export { BoardForm };

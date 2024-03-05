@@ -6,18 +6,22 @@ import {
   useGetBoardByIdQuery,
   useGetBoardsQuery,
 } from "../slices/boardsApiSlice";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { Modal } from "../components/Modal";
-import { AddBoardForm } from "../components/AddBoardForm";
+import { BoardForm } from "../components/BoardForm";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { setSelectedBoardId, setSelectedBoardName } from "../slices/appSlice";
+import {
+  setSelectedBoardId,
+  setSelectedBoardName,
+  setOpenBoardForm,
+} from "../slices/appSlice";
 
 const Desktop = () => {
-  const [openCreateBoard, setOpenCreateBoard] = useState(false);
-
   const dispatch = useAppDispatch();
 
-  const { selectedBoardId } = useAppSelector((state) => state.app);
+  const { selectedBoardId, openBoardForm } = useAppSelector(
+    (state) => state.app
+  );
 
   const { data: boards = [] } = useGetBoardsQuery({});
   const { data: dataForBoard = [] } = useGetBoardByIdQuery(selectedBoardId, {
@@ -36,8 +40,8 @@ const Desktop = () => {
     <Box sx={{ display: "flex", height: "100vh" }}>
       <Drawer
         data={boards}
-        openCreateBoard={openCreateBoard}
-        setOpenCreateBoard={setOpenCreateBoard}
+        openBoardForm={openBoardForm}
+        setOpenBoardForm={setOpenBoardForm}
         selectedId={selectedBoardId}
         handleOnSelectionMade={handleOnSelectionMade}
       />
@@ -56,11 +60,11 @@ const Desktop = () => {
           <ToDosArea data={dataForBoard} />
         </Box>
 
-        {openCreateBoard && (
+        {openBoardForm && (
           <Modal
-            openCreateBoard={openCreateBoard}
-            setOpenCreateBoard={setOpenCreateBoard}
-            FormComponent={<AddBoardForm />}
+            openForm={openBoardForm}
+            setOpenForm={setOpenBoardForm}
+            FormComponent={<BoardForm />}
           />
         )}
       </Box>

@@ -22,6 +22,13 @@ export const boardsApiSlice = apiSlice.injectEndpoints({
       }),
       keepUnusedDataFor: 5,
     }),
+    updateBoard: builder.mutation({
+      query: ({ id, ...data }) => ({
+        url: `${BOARDS_URL}/${id}`,
+        method: "PUT",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -29,4 +36,5 @@ export const {
   useGetBoardsQuery,
   useCreateBoardMutation,
   useGetBoardByIdQuery,
+  useUpdateBoardMutation,
 } = boardsApiSlice;

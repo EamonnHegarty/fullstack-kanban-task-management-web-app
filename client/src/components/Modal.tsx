@@ -1,8 +1,10 @@
-import { FC, ReactElement } from "react";
+import { FC, ReactElement, useCallback } from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import { Modal as MuiModal } from "@mui/material";
 import Fade from "@mui/material/Fade";
+import { useAppDispatch } from "../hooks";
+import { UnknownAction } from "@reduxjs/toolkit";
 
 const style = {
   position: "absolute",
@@ -18,21 +20,27 @@ const style = {
 };
 
 type Modal = {
-  setOpenCreateBoard: React.Dispatch<React.SetStateAction<boolean>>;
-  openCreateBoard: boolean;
+  setOpenForm: (value: boolean) => UnknownAction;
+  openForm: boolean;
   FormComponent: ReactElement;
 };
 
 const Modal: FC<Modal> = (props): React.ReactElement => {
-  const { setOpenCreateBoard, openCreateBoard, FormComponent } = props;
+  const { setOpenForm, openForm, FormComponent } = props;
+
+  const dispatch = useAppDispatch();
+
+  const handleOnCloseForm = useCallback(() => {
+    dispatch(setOpenForm(false));
+  }, [dispatch, setOpenForm]);
 
   return (
     <div>
       <MuiModal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
-        open={openCreateBoard}
-        onClose={() => setOpenCreateBoard(false)}
+        open={openForm}
+        onClose={handleOnCloseForm}
         closeAfterTransition
         slots={{ backdrop: Backdrop }}
         slotProps={{
@@ -41,7 +49,7 @@ const Modal: FC<Modal> = (props): React.ReactElement => {
           },
         }}
       >
-        <Fade in={openCreateBoard}>
+        <Fade in={openForm}>
           <Box sx={style}>{FormComponent}</Box>
         </Fade>
       </MuiModal>

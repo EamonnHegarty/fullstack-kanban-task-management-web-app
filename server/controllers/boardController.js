@@ -5,8 +5,21 @@ import Board from "../models/boardModel.js";
 // @route GET /api/boards
 // @access PRIVATE
 const getBoards = asyncHandler(async (req, res) => {
-  const boards = await Board.find({ user: req.user._id }, { boardName: 1 });
-  res.json(boards);
+  // Fetch the boards along with their columns
+  const boards = await Board.find({ user: req.user._id }).select(
+    "boardName columns._id columns.columnName"
+  );
+
+  const transformedBoards = boards.map((board) => ({
+    _id: board._id,
+    boardName: board.boardName,
+    columns: board.columns.map((column) => ({
+      _id: column._id,
+      columnName: column.columnName,
+    })),
+  }));
+
+  res.json(transformedBoards);
 });
 
 // @desc Create a board

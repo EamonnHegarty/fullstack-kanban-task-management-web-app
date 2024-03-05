@@ -67,6 +67,24 @@ const components = {
       }),
     },
   },
+  MuiMenuItem: {
+    styleOverrides: {
+      root: ({ theme }: { theme: Theme }) => ({
+        "&:hover": {
+          backgroundColor: alpha(theme.palette.primary.light, 0.35),
+        },
+      }),
+    },
+  },
+  MuiIconButton: {
+    styleOverrides: {
+      root: ({ theme }: { theme: Theme }) => ({
+        "&:hover": {
+          backgroundColor: alpha(theme.palette.primary.light, 0.35),
+        },
+      }),
+    },
+  },
 };
 
 const lightTheme = createTheme({
