@@ -21,10 +21,10 @@ export type Task = {
 
 export type Column = {
   columnName: string;
-  tasks: Task[];
-  _id: string;
-  createdAt: string;
-  updatedAt: string;
+  tasks?: Task[];
+  _id?: string;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export type BoardData = {
@@ -35,4 +35,10 @@ export type BoardData = {
   __v: number;
   createdAt: string;
   updatedAt: string;
+};
+
+export type SelectedBoard = {
+  _id: string;
+  boardName: string;
+  columns: [Column];
 };

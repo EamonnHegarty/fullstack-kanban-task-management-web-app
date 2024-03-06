@@ -5,6 +5,7 @@ import { Modal as MuiModal } from "@mui/material";
 import Fade from "@mui/material/Fade";
 import { useAppDispatch } from "../hooks";
 import { UnknownAction } from "@reduxjs/toolkit";
+import { setIsEditingBoard } from "../slices/appSlice";
 
 const style = {
   position: "absolute",
@@ -32,6 +33,7 @@ const Modal: FC<Modal> = (props): React.ReactElement => {
 
   const handleOnCloseForm = () => {
     dispatch(setOpenForm(false));
+    dispatch(setIsEditingBoard(false));
   };
 
   return (

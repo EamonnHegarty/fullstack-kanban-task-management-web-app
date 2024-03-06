@@ -12,6 +12,7 @@ type FormDataEntry = {
 type FormProps = {
   formTitle: string;
   columns: string[];
+  buttonText: string;
   formDataEntryData: FormDataEntry[];
   setColumns: (columns: string[]) => void;
   handleOnSubmitForm: () => void;
@@ -54,6 +55,7 @@ const Form: FC<FormProps> = (props): React.ReactElement => {
     handleOnSubmitForm,
     setColumns,
     formDataEntryData,
+    buttonText,
   } = props;
 
   const [isFormValid, setIsFormValid] = useState(false);
@@ -73,6 +75,9 @@ const Form: FC<FormProps> = (props): React.ReactElement => {
   };
 
   const handleDeleteColumn = (index: number) => {
+    if (columns.length === 1) {
+      return;
+    }
     const updatedColumns = columns.filter((_, colIndex) => colIndex !== index);
     setColumns(updatedColumns);
   };
@@ -149,7 +154,7 @@ const Form: FC<FormProps> = (props): React.ReactElement => {
           disabled={!isFormValid}
         >
           <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-            Create New Board
+            {buttonText}
           </Typography>
         </Button>
       </Grid>

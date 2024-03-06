@@ -19,9 +19,9 @@ import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { Boards } from "../types/Boards";
 import { useAppDispatch } from "../hooks";
 import { UnknownAction } from "@reduxjs/toolkit";
+import { SelectedBoard } from "../types/BoardsData";
 
 const DRAWER_WIDTH = 240;
 
@@ -75,11 +75,11 @@ const StyledSwitch = styled(Switch)(({ theme }) => ({
 }));
 
 type DrawerProps = {
-  data: Array<Boards>;
+  data: Array<SelectedBoard>;
   setOpenBoardForm: (value: boolean) => UnknownAction;
   openBoardForm: boolean;
   selectedId: string | null;
-  handleOnSelectionMade: (id: string, boardName: string) => void;
+  handleOnSelectionMade: (data: SelectedBoard) => void;
 };
 
 const Drawer: FC<DrawerProps> = (props): ReactElement => {
@@ -102,10 +102,6 @@ const Drawer: FC<DrawerProps> = (props): ReactElement => {
 
   const handleDrawerClose = () => {
     setOpen(false);
-  };
-
-  const handleOnUserSelectBoard = (id: string, boardName: string) => {
-    handleOnSelectionMade(id, boardName);
   };
 
   const handleOnOpenBoardForm = () => {
@@ -132,7 +128,7 @@ const Drawer: FC<DrawerProps> = (props): ReactElement => {
                 key={data._id}
                 selected={data._id === selectedId}
                 onClick={() => {
-                  handleOnUserSelectBoard(data._id, data.boardName);
+                  handleOnSelectionMade(data);
                 }}
                 sx={{
                   "&.Mui-selected, &.Mui-selected:hover": {

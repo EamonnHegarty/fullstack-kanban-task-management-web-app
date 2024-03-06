@@ -1,10 +1,13 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
+import { SelectedBoard } from "../types/BoardsData";
 
 type AppSlice = {
   selectedBoardId: string | null;
   selectedBoardName: string;
   isEditingBoard: boolean;
   openBoardForm: boolean;
+  selectedBoard: SelectedBoard | null;
+  shouldRefreshBoardData: boolean;
 };
 
 const initialState: AppSlice = {
@@ -12,6 +15,8 @@ const initialState: AppSlice = {
   selectedBoardName: "",
   isEditingBoard: false,
   openBoardForm: false,
+  selectedBoard: null,
+  shouldRefreshBoardData: false,
 };
 const appSlice = createSlice({
   name: "app",
@@ -26,9 +31,14 @@ const appSlice = createSlice({
     setIsEditingBoard: (state, action) => {
       state.isEditingBoard = action.payload;
     },
-    setOpenBoardForm: (state, action: PayloadAction<boolean>) => {
-      console.log(action.payload);
+    setOpenBoardForm: (state, action) => {
       state.openBoardForm = action.payload;
+    },
+    setSelectedBoard: (state, action) => {
+      state.selectedBoard = action.payload;
+    },
+    setShouldRefreshBoardData: (state, action) => {
+      state.shouldRefreshBoardData = action.payload;
     },
   },
 });
@@ -38,6 +48,8 @@ export const {
   setSelectedBoardName,
   setIsEditingBoard,
   setOpenBoardForm,
+  setSelectedBoard,
+  setShouldRefreshBoardData,
 } = appSlice.actions;
 
 export default appSlice.reducer;

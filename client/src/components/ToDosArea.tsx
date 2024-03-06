@@ -13,7 +13,7 @@ const KanbanColumn = ({ columnName, tasks }: Column) => {
       <Typography variant="h2" sx={{ color: "text.secondary" }}>
         {columnName}
       </Typography>
-      {tasks.map((task, index) => (
+      {tasks?.map((task, index) => (
         <TaskCard
           id={task._id}
           key={index}

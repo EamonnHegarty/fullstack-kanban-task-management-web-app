@@ -33,14 +33,10 @@ const createBoard = asyncHandler(async (req, res) => {
     throw new Error("Board name is required");
   }
 
-  const formattedColumns = columns.map((columnName) => ({
-    columnName,
-  }));
-
   const board = new Board({
     user: req.user._id,
     boardName,
-    columns: formattedColumns,
+    columns: columns,
   });
 
   const createdBoard = await board.save();
@@ -61,4 +57,27 @@ const getBoardById = asyncHandler(async (req, res) => {
   }
 });
 
-export { getBoards, getBoardById, createBoard };
+// @desc Update a board
+// @route PUT /api/boards/:id
+// @access PRIVATE
+const updateBoard = asyncHandler(async (req, res) => {
+  const { boardName, columns } = req.body;
+
+  const board = await Board.findById(req.params.id);
+
+  if (board) {
+    board.boardName = boardName;
+    board.columns = columns.map((column) => ({
+      _id: column._id,
+      columnName: column.columnName,
+    }));
+
+    const updatedBoard = await board.save();
+    res.json(updatedBoard);
+  } else {
+    res.status(404);
+    throw new Error("Board not found");
+  }
+});
+
+export { getBoards, getBoardById, createBoard, updateBoard };

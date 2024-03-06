@@ -13,24 +13,37 @@ import {
   setSelectedBoardId,
   setSelectedBoardName,
   setOpenBoardForm,
+  setSelectedBoard,
+  setShouldRefreshBoardData,
 } from "../slices/appSlice";
+import { SelectedBoard } from "../types/BoardsData";
+import { useEffect } from "react";
 
 const Desktop = () => {
   const dispatch = useAppDispatch();
 
-  const { selectedBoardId, openBoardForm } = useAppSelector(
-    (state) => state.app
-  );
+  const { selectedBoardId, openBoardForm, shouldRefreshBoardData } =
+    useAppSelector((state) => state.app);
 
-  const { data: boards = [] } = useGetBoardsQuery({});
-  const { data: dataForBoard = [] } = useGetBoardByIdQuery(selectedBoardId, {
-    skip: selectedBoardId === null,
-  });
+  const { data: boards = [], refetch: refetchBoards } = useGetBoardsQuery({});
+  const { data: dataForBoard = [], refetch: refetchDataForBoard } =
+    useGetBoardByIdQuery(selectedBoardId, {
+      skip: selectedBoardId === null,
+    });
 
-  const handleOnSelectionMade = (id: string, boardName: string) => {
-    dispatch(setSelectedBoardId(id));
-    dispatch(setSelectedBoardName(boardName));
+  const handleOnSelectionMade = (data: SelectedBoard) => {
+    dispatch(setSelectedBoardId(data._id));
+    dispatch(setSelectedBoardName(data.boardName));
+    dispatch(setSelectedBoard(data));
   };
+
+  useEffect(() => {
+    if (shouldRefreshBoardData) {
+      refetchBoards();
+      refetchDataForBoard();
+      dispatch(setShouldRefreshBoardData(false));
+    }
+  }, [dispatch, refetchBoards, refetchDataForBoard, shouldRefreshBoardData]);
 
   return (
     <Box sx={{ display: "flex", height: "100vh" }}>
