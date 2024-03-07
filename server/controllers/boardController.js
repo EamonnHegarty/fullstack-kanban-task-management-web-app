@@ -61,16 +61,19 @@ const getBoardById = asyncHandler(async (req, res) => {
 // @route PUT /api/boards/:id
 // @access PRIVATE
 const updateBoard = asyncHandler(async (req, res) => {
-  const { boardName, columns } = req.body;
+  const { boardName, columns: updatedColumns } = req.body;
 
   const board = await Board.findById(req.params.id);
 
   if (board) {
     board.boardName = boardName;
-    board.columns = columns.map((column) => ({
-      _id: column._id,
-      columnName: column.columnName,
-    }));
+
+    board.columns.forEach((column) => {
+      const updatedColumn = updatedColumns.find((c) => c._id === column._id);
+      if (updatedColumn) {
+        column.columnName = updatedColumn.columnName;
+      }
+    });
 
     const updatedBoard = await board.save();
     res.json(updatedBoard);
