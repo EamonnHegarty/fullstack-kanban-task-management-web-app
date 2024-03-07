@@ -29,6 +29,12 @@ export const boardsApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    deleteBoardById: builder.mutation({
+      query: (id) => ({
+        url: `${BOARDS_URL}/${id}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
@@ -37,4 +43,5 @@ export const {
   useCreateBoardMutation,
   useGetBoardByIdQuery,
   useUpdateBoardMutation,
+  useDeleteBoardByIdMutation,
 } = boardsApiSlice;

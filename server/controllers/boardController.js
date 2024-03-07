@@ -80,4 +80,19 @@ const updateBoard = asyncHandler(async (req, res) => {
   }
 });
 
-export { getBoards, getBoardById, createBoard, updateBoard };
+// @desc Delete a board
+// @route DELETE /api/boards/:id
+// @access PRIVATE#
+const deleteBoard = asyncHandler(async (req, res) => {
+  const id = req.params.id;
+
+  const board = await Board.findByIdAndDelete(id);
+
+  if (board) {
+    res.status(200).json({ message: "Successfully deleted board" });
+  } else {
+    res.status(404).json({ message: "Board not found" });
+  }
+});
+
+export { getBoards, getBoardById, createBoard, updateBoard, deleteBoard };
