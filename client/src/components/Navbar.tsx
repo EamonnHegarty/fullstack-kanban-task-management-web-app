@@ -6,16 +6,24 @@ import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { setIsEditingBoard } from "../slices/appSlice";
-import React from "react";
+import {
+  setIsEditingBoard,
+  setShouldRefreshBoardData,
+} from "../slices/appSlice";
+import React, { useCallback } from "react";
 import { Menu, MenuItem } from "@mui/material";
 import { setOpenBoardForm } from "../slices/appSlice";
+import { useDeleteBoardByIdMutation } from "../slices/boardsApiSlice";
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
-  const { selectedBoardName } = useAppSelector((state) => state.app);
+  const { selectedBoardName, selectedBoardId } = useAppSelector(
+    (state) => state.app
+  );
   const dispatch = useAppDispatch();
+
+  const [deleteBoardById] = useDeleteBoardByIdMutation();
 
   const open = Boolean(anchorEl);
 
@@ -33,9 +41,12 @@ const Navbar = () => {
     handleClose();
   };
 
-  const handleSignOutClick = () => {
-    handleClose();
-  };
+  const handleOnDeleteBoard = useCallback(() => {
+    const promise = deleteBoardById(selectedBoardId);
+    promise.then(() => {
+      dispatch(setShouldRefreshBoardData(true));
+    });
+  }, [deleteBoardById, dispatch, selectedBoardId]);
 
   return (
     <Box
@@ -100,7 +111,7 @@ const Navbar = () => {
             <MenuItem onClick={handleEditBoardClick}>
               <Typography variant="body1">Edit Board</Typography>
             </MenuItem>
-            <MenuItem onClick={handleSignOutClick}>
+            <MenuItem onClick={handleOnDeleteBoard}>
               <Typography variant="body1">Delete Board</Typography>
             </MenuItem>
           </Menu>
