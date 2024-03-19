@@ -8,7 +8,10 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import {
   setIsEditingBoard,
+  setSelectedBoardId,
+  setSelectedBoardName,
   setShouldRefreshBoardData,
+  setShouldRefreshBoardsListOnly,
 } from "../slices/appSlice";
 import React, { useCallback } from "react";
 import { Menu, MenuItem } from "@mui/material";
@@ -45,6 +48,9 @@ const Navbar = () => {
     const promise = deleteBoardById(selectedBoardId);
     promise.then(() => {
       dispatch(setShouldRefreshBoardData(true));
+      dispatch(setShouldRefreshBoardsListOnly(true));
+      dispatch(setSelectedBoardId(null));
+      dispatch(setSelectedBoardName(""));
     });
   }, [deleteBoardById, dispatch, selectedBoardId]);
 

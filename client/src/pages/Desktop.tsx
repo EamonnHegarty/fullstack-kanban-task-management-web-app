@@ -15,6 +15,7 @@ import {
   setOpenBoardForm,
   setSelectedBoard,
   setShouldRefreshBoardData,
+  setShouldRefreshBoardsListOnly,
 } from "../slices/appSlice";
 import { SelectedBoard } from "../types/BoardsData";
 import { useEffect } from "react";
@@ -22,14 +23,20 @@ import { useEffect } from "react";
 const Desktop = () => {
   const dispatch = useAppDispatch();
 
-  const { selectedBoardId, openBoardForm, shouldRefreshBoardData } =
-    useAppSelector((state) => state.app);
+  const {
+    selectedBoardId,
+    openBoardForm,
+    shouldRefreshBoardData,
+    shouldRefreshBoardsListOnly,
+  } = useAppSelector((state) => state.app);
 
   const { data: boards = [], refetch: refetchBoards } = useGetBoardsQuery({});
   const { data: dataForBoard = [], refetch: refetchDataForBoard } =
     useGetBoardByIdQuery(selectedBoardId, {
       skip: selectedBoardId === null,
     });
+
+  const todosData = selectedBoardId ? dataForBoard : [];
 
   const handleOnSelectionMade = (data: SelectedBoard) => {
     dispatch(setSelectedBoardId(data._id));
@@ -40,12 +47,19 @@ const Desktop = () => {
   useEffect(() => {
     if (shouldRefreshBoardData) {
       refetchBoards();
-      refetchDataForBoard();
+      if (!shouldRefreshBoardsListOnly) {
+        refetchDataForBoard();
+      }
       dispatch(setShouldRefreshBoardData(false));
+      dispatch(setShouldRefreshBoardsListOnly(false));
     }
-
-    // todo you need to seperate the should refreshboard data to stop an api call when we delete boards
-  }, [dispatch, refetchBoards, refetchDataForBoard, shouldRefreshBoardData]);
+  }, [
+    dispatch,
+    refetchBoards,
+    refetchDataForBoard,
+    shouldRefreshBoardData,
+    shouldRefreshBoardsListOnly,
+  ]);
 
   return (
     <Box sx={{ display: "flex", height: "100vh" }}>
@@ -68,7 +82,7 @@ const Desktop = () => {
           minHeight="90vh"
           sx={{ backgroundColor: "background.paper", margin: 0 }}
         >
-          <ToDosArea data={dataForBoard} />
+          <ToDosArea data={todosData} />
         </Box>
 
         {openBoardForm && (

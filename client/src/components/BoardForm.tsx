@@ -10,6 +10,7 @@ import {
   setOpenBoardForm,
   setSelectedBoardName,
   setShouldRefreshBoardData,
+  setShouldRefreshBoardsListOnly,
 } from "../slices/appSlice";
 
 const BoardForm = () => {
@@ -62,6 +63,7 @@ const BoardForm = () => {
         .finally(() => {
           dispatch(setOpenBoardForm(false));
           dispatch(setShouldRefreshBoardData(true));
+          dispatch(setShouldRefreshBoardsListOnly(true));
         });
       return;
     }
@@ -80,6 +82,7 @@ const BoardForm = () => {
       .finally(() => {
         dispatch(setOpenBoardForm(false));
         dispatch(setShouldRefreshBoardData(true));
+        dispatch(setShouldRefreshBoardsListOnly(true));
       });
   };
 
