@@ -16,8 +16,8 @@ import {
   setSelectedBoard,
   setShouldRefreshBoardData,
 } from "../slices/appSlice";
-import { BoardData, SelectedBoard } from "../types/BoardsData";
-import { useEffect, useState } from "react";
+import { SelectedBoard } from "../types/BoardsData";
+import { useEffect } from "react";
 
 const Desktop = () => {
   const dispatch = useAppDispatch();
@@ -37,8 +37,6 @@ const Desktop = () => {
     dispatch(setSelectedBoard(data));
   };
 
-  const [dataForToDos, setDataForTodos] = useState([]);
-
   useEffect(() => {
     if (shouldRefreshBoardData) {
       refetchBoards();
@@ -48,14 +46,6 @@ const Desktop = () => {
 
     // todo you need to seperate the should refreshboard data to stop an api call when we delete boards
   }, [dispatch, refetchBoards, refetchDataForBoard, shouldRefreshBoardData]);
-
-  useEffect(() => {
-    if (dataForBoard && selectedBoardId?.length) {
-      setDataForTodos(dataForBoard);
-    } else {
-      setDataForTodos([]);
-    }
-  }, [dataForBoard, selectedBoardId?.length]);
 
   return (
     <Box sx={{ display: "flex", height: "100vh" }}>
@@ -78,7 +68,7 @@ const Desktop = () => {
           minHeight="90vh"
           sx={{ backgroundColor: "background.paper", margin: 0 }}
         >
-          <ToDosArea data={dataForToDos as unknown as BoardData} />
+          <ToDosArea data={dataForBoard} />
         </Box>
 
         {openBoardForm && (
