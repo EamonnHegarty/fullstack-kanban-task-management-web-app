@@ -1,8 +1,12 @@
 import mongoose from "mongoose";
-import subtaskSchema from "./subtaskSchema.js";
 
-const tasksSchema = new mongoose.Schema(
+const taskSchema = new mongoose.Schema(
   {
+    column: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "Column",
+    },
     taskTitle: {
       type: String,
       required: true,
@@ -11,9 +15,9 @@ const tasksSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    subtasks: { type: [subtaskSchema], default: [] },
   },
   { timestamps: true }
 );
 
-export default tasksSchema;
+const Task = mongoose.model("Task", taskSchema);
+export default Task;

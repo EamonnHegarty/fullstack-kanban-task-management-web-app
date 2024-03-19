@@ -1,23 +1,31 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import Board from "../models/boardModel.js";
+import Column from "../models/columnModel.js";
 
 // @desc Fetch all boards
 // @route GET /api/boards
 // @access PRIVATE
 const getBoards = asyncHandler(async (req, res) => {
-  // Fetch the boards along with their columns
-  const boards = await Board.find({ user: req.user._id }).select(
-    "boardName columns._id columns.columnName"
-  );
+  const boards = await Board.find({ user: req.user._id }).select("boardName");
 
-  const transformedBoards = boards.map((board) => ({
-    _id: board._id,
-    boardName: board.boardName,
-    columns: board.columns.map((column) => ({
-      _id: column._id,
-      columnName: column.columnName,
-    })),
-  }));
+  const transformedBoards = await Promise.all(
+    boards.map(async (board) => {
+      const columns = await Column.find({ board: board._id }).select(
+        "columnName"
+      );
+
+      const transformedColumns = columns.map((column) => ({
+        _id: column._id,
+        columnName: column.columnName,
+      }));
+
+      return {
+        _id: board._id,
+        boardName: board.boardName,
+        columns: transformedColumns,
+      };
+    })
+  );
 
   res.json(transformedBoards);
 });
@@ -36,10 +44,24 @@ const createBoard = asyncHandler(async (req, res) => {
   const board = new Board({
     user: req.user._id,
     boardName,
-    columns: columns,
   });
 
   const createdBoard = await board.save();
+
+  if (columns && columns.length > 0) {
+    const createdColumns = await Promise.all(
+      columns.map(async (column) => {
+        const newColumn = new Column({
+          board: createdBoard._id,
+          columnName: column.columnName,
+        });
+        return await newColumn.save();
+      })
+    );
+
+    createdBoard.columns = createdColumns;
+  }
+
   res.status(201).json(createdBoard);
 });
 
@@ -50,10 +72,17 @@ const getBoardById = asyncHandler(async (req, res) => {
   const board = await Board.findById(req.params.id);
 
   if (board) {
-    res.json(board);
+    const columns = await Column.find({ board: board._id }).select(
+      "columnName -_id"
+    );
+
+    const boardWithColumns = board.toObject();
+    boardWithColumns.columns = columns;
+
+    res.json(boardWithColumns);
   } else {
     res.status(404);
-    throw new Error("resource not found");
+    throw new Error("Board not found");
   }
 });
 
@@ -65,27 +94,49 @@ const updateBoard = asyncHandler(async (req, res) => {
 
   const board = await Board.findById(req.params.id);
 
-  if (board) {
-    board.boardName = boardName;
-
-    board.columns.forEach((column) => {
-      const updatedColumn = updatedColumns.find((c) => c._id === column._id);
-      if (updatedColumn) {
-        column.columnName = updatedColumn.columnName;
-      }
-    });
-
-    const updatedBoard = await board.save();
-    res.json(updatedBoard);
-  } else {
+  if (!board) {
     res.status(404);
     throw new Error("Board not found");
   }
+
+  board.boardName = boardName || board.boardName;
+  await board.save();
+
+  if (updatedColumns && updatedColumns.length > 0) {
+    const updatedColumnIds = await Promise.all(
+      updatedColumns.map(async (column) => {
+        if (column._id) {
+          await Column.findByIdAndUpdate(column._id, {
+            columnName: column.columnName,
+          });
+          return column._id;
+        } else {
+          const newColumn = await new Column({
+            board: board._id,
+            columnName: column.columnName,
+          }).save();
+          return newColumn._id;
+        }
+      })
+    );
+
+    await Column.deleteMany({
+      board: board._id,
+      _id: { $nin: updatedColumnIds },
+    });
+  }
+
+  const updatedBoard = await Board.findById(board._id).populate({
+    path: "columns",
+    select: "columnName",
+  });
+
+  res.json(updatedBoard);
 });
 
 // @desc Delete a board
 // @route DELETE /api/boards/:id
-// @access PRIVATE#
+// @access PRIVATE
 const deleteBoard = asyncHandler(async (req, res) => {
   const id = req.params.id;
 

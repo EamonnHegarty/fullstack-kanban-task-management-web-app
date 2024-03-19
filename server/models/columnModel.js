@@ -1,15 +1,19 @@
 import mongoose from "mongoose";
-import tasksSchema from "./taskModel.js";
 
 const columnSchema = new mongoose.Schema(
   {
+    board: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "Board",
+    },
     columnName: {
       type: String,
       required: true,
     },
-    tasks: { type: [tasksSchema], default: [] },
   },
   { timestamps: true }
 );
 
-export default columnSchema;
+const Column = mongoose.model("Column", columnSchema);
+export default Column;

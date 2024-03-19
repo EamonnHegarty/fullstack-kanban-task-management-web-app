@@ -63,7 +63,6 @@ const BoardForm = () => {
         .finally(() => {
           dispatch(setOpenBoardForm(false));
           dispatch(setShouldRefreshBoardData(true));
-          dispatch(setShouldRefreshBoardsListOnly(true));
         });
       return;
     }

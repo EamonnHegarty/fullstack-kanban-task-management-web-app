@@ -12,11 +12,15 @@ const boardSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    columns: { type: [columnSchema], default: [] },
+    columns: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Column",
+      },
+    ],
   },
   { timestamps: true }
 );
 
 const Board = mongoose.model("Board", boardSchema);
-
 export default Board;

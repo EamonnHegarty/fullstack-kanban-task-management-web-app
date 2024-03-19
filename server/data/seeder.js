@@ -1,9 +1,7 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import users from "./users.js";
-import { boards } from "./boards.js";
 import User from "../models/userModel.js";
-import Board from "../models/boardModel.js";
 import { connectDB } from "../config/db.js";
 
 dotenv.config();
@@ -13,17 +11,8 @@ connectDB();
 const createData = async () => {
   try {
     await User.deleteMany();
-    await Board.deleteMany();
 
-    const createdUsers = await User.insertMany(users);
-
-    const dataUser = createdUsers[0]._id;
-
-    const sampleBoards = boards.map((board) => {
-      return { ...board, user: dataUser };
-    });
-
-    await Board.insertMany(sampleBoards);
+    await User.insertMany(users);
 
     console.log("Data Imported!");
     process.exit();
@@ -36,8 +25,6 @@ const createData = async () => {
 const destroyData = async () => {
   try {
     await User.deleteMany();
-    await Board.deleteMany();
-
     console.log("Data destroyed!");
     process.exit();
   } catch (error) {
