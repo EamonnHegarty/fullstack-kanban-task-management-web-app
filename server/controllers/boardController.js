@@ -1,6 +1,8 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import Board from "../models/boardModel.js";
 import Column from "../models/columnModel.js";
+import Subtask from "../models/subtaskModel.js";
+import Task from "../models/taskModel.js";
 
 // @desc Fetch all boards
 // @route GET /api/boards
@@ -71,19 +73,41 @@ const createBoard = asyncHandler(async (req, res) => {
 const getBoardById = asyncHandler(async (req, res) => {
   const board = await Board.findById(req.params.id);
 
-  if (board) {
-    const columns = await Column.find({ board: board._id }).select(
-      "columnName -_id"
-    );
-
-    const boardWithColumns = board.toObject();
-    boardWithColumns.columns = columns;
-
-    res.json(boardWithColumns);
-  } else {
+  if (!board) {
     res.status(404);
     throw new Error("Board not found");
   }
+
+  const columns = await Column.find({ board: board._id });
+
+  const columnsWithTasks = [];
+
+  for (const column of columns) {
+    const tasks = await Task.find({ column: column._id });
+
+    const tasksWithSubtasks = [];
+
+    for (const task of tasks) {
+      const subtasks = await Subtask.find({ tasks: task._id });
+
+      tasksWithSubtasks.push({
+        ...task.toObject(),
+        subtasks,
+      });
+    }
+
+    columnsWithTasks.push({
+      ...column.toObject(),
+      tasks: tasksWithSubtasks,
+    });
+  }
+
+  const boardWithColumnsTasks = {
+    ...board.toObject(),
+    columns: columnsWithTasks,
+  };
+
+  res.json(boardWithColumnsTasks);
 });
 
 // @desc Update a board
