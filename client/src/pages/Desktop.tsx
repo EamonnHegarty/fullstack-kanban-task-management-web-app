@@ -19,6 +19,7 @@ import {
 } from "../slices/appSlice";
 import { SelectedBoard } from "../types/BoardsData";
 import { useEffect } from "react";
+import { useGetColumnsQuery } from "../slices/columnsApiSlice";
 
 const Desktop = () => {
   const dispatch = useAppDispatch();
@@ -31,6 +32,12 @@ const Desktop = () => {
   } = useAppSelector((state) => state.app);
 
   const { data: boards = [], refetch: refetchBoards } = useGetBoardsQuery({});
+  const { data: columns = [], refetch: refetchColumns } = useGetColumnsQuery(
+    selectedBoardId,
+    {
+      skip: selectedBoardId === null,
+    }
+  );
   const { data: dataForBoard = [], refetch: refetchDataForBoard } =
     useGetBoardByIdQuery(selectedBoardId, {
       skip: selectedBoardId === null,
@@ -49,13 +56,16 @@ const Desktop = () => {
       refetchBoards();
       if (!shouldRefreshBoardsListOnly) {
         refetchDataForBoard();
+        refetchColumns();
       }
       dispatch(setShouldRefreshBoardData(false));
       dispatch(setShouldRefreshBoardsListOnly(false));
     }
   }, [
+    columns,
     dispatch,
     refetchBoards,
+    refetchColumns,
     refetchDataForBoard,
     shouldRefreshBoardData,
     shouldRefreshBoardsListOnly,
