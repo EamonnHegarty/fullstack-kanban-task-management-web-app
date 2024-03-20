@@ -9,6 +9,7 @@ type AppSlice = {
   selectedBoard: SelectedBoard | null;
   shouldRefreshBoardData: boolean;
   shouldRefreshBoardsListOnly: boolean;
+  openTaskForm: boolean;
 };
 
 const initialState: AppSlice = {
@@ -19,6 +20,7 @@ const initialState: AppSlice = {
   selectedBoard: null,
   shouldRefreshBoardData: false,
   shouldRefreshBoardsListOnly: false,
+  openTaskForm: false,
 };
 const appSlice = createSlice({
   name: "app",
@@ -45,6 +47,9 @@ const appSlice = createSlice({
     setShouldRefreshBoardsListOnly: (state, action) => {
       state.shouldRefreshBoardsListOnly = action.payload;
     },
+    setOpenTaskForm: (state, action) => {
+      state.openTaskForm = action.payload;
+    },
   },
 });
 
@@ -56,6 +61,7 @@ export const {
   setSelectedBoard,
   setShouldRefreshBoardData,
   setShouldRefreshBoardsListOnly,
+  setOpenTaskForm,
 } = appSlice.actions;
 
 export default appSlice.reducer;

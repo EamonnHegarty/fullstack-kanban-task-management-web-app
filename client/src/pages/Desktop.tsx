@@ -16,10 +16,12 @@ import {
   setSelectedBoard,
   setShouldRefreshBoardData,
   setShouldRefreshBoardsListOnly,
+  setOpenTaskForm,
 } from "../slices/appSlice";
 import { SelectedBoard } from "../types/BoardsData";
 import { useEffect } from "react";
 import { useGetColumnsQuery } from "../slices/columnsApiSlice";
+import TaskForm from "../components/TaskForm";
 
 const Desktop = () => {
   const dispatch = useAppDispatch();
@@ -29,6 +31,7 @@ const Desktop = () => {
     openBoardForm,
     shouldRefreshBoardData,
     shouldRefreshBoardsListOnly,
+    openTaskForm,
   } = useAppSelector((state) => state.app);
 
   const { data: boards = [], refetch: refetchBoards } = useGetBoardsQuery({});
@@ -100,6 +103,13 @@ const Desktop = () => {
             openForm={openBoardForm}
             setOpenForm={setOpenBoardForm}
             FormComponent={<BoardForm />}
+          />
+        )}
+        {openTaskForm && (
+          <Modal
+            openForm={openTaskForm}
+            setOpenForm={setOpenTaskForm}
+            FormComponent={<TaskForm />}
           />
         )}
       </Box>

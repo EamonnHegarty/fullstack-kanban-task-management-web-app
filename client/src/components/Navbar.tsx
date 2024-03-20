@@ -8,6 +8,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import {
   setIsEditingBoard,
+  setOpenTaskForm,
   setSelectedBoardId,
   setSelectedBoardName,
   setShouldRefreshBoardData,
@@ -21,7 +22,7 @@ import { useDeleteBoardByIdMutation } from "../slices/boardsApiSlice";
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
-  const { selectedBoardName, selectedBoardId } = useAppSelector(
+  const { selectedBoardName, selectedBoardId, openTaskForm } = useAppSelector(
     (state) => state.app
   );
   const dispatch = useAppDispatch();
@@ -54,6 +55,10 @@ const Navbar = () => {
     });
   }, [deleteBoardById, dispatch, selectedBoardId]);
 
+  const handleOnAddTaskClicked = () => {
+    dispatch(setOpenTaskForm(!openTaskForm));
+  };
+
   return (
     <Box
       sx={{ minHeight: "10vh" }}
@@ -75,6 +80,7 @@ const Navbar = () => {
             {selectedBoardName}
           </Typography>
           <Button
+            onClick={handleOnAddTaskClicked}
             sx={{
               backgroundColor: "primary.light",
               color: "white",
