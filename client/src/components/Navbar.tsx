@@ -114,10 +114,16 @@ const Navbar = () => {
               },
             }}
           >
-            <MenuItem onClick={handleEditBoardClick}>
+            <MenuItem
+              onClick={handleEditBoardClick}
+              disabled={!selectedBoardId?.length}
+            >
               <Typography variant="body1">Edit Board</Typography>
             </MenuItem>
-            <MenuItem onClick={handleOnDeleteBoard}>
+            <MenuItem
+              onClick={handleOnDeleteBoard}
+              disabled={!selectedBoardId?.length}
+            >
               <Typography variant="body1">Delete Board</Typography>
             </MenuItem>
           </Menu>
