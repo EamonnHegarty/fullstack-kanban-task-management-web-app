@@ -6,11 +6,7 @@ import Column from "../models/columnModel.js";
 // @access PRIVATE
 export const getColumnsByBoardId = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  console.log();
-  console.log("hio");
   const columns = await Column.find({ board: id }).select("columnName");
-
-  console.log(columns);
 
   if (!columns) {
     res.status(404);

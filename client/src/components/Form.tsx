@@ -1,4 +1,14 @@
-import { Button, Grid, TextField, Typography, alpha } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+  alpha,
+} from "@mui/material";
 import React, { FC, useEffect, useState } from "react";
 import { ColumnTextField } from "./ColumnTextField";
 
@@ -12,6 +22,11 @@ type FormDataEntry = {
 type FormProps = {
   formTitle: string;
   columns: string[];
+  columnsTitle: string;
+  isTaskForm?: boolean;
+  options?: Array<string>;
+  selectedOption?: string;
+  setSelectedOption?: (option: string) => void;
   buttonText: string;
   formDataEntryData: FormDataEntry[];
   setColumns: (columns: string[]) => void;
@@ -51,11 +66,16 @@ const FormDataEntry: FC<FormDataEntryProps> = (props): React.ReactElement => {
 const Form: FC<FormProps> = (props): React.ReactElement => {
   const {
     columns,
+    columnsTitle,
     formTitle,
     handleOnSubmitForm,
     setColumns,
     formDataEntryData,
     buttonText,
+    isTaskForm,
+    options,
+    selectedOption,
+    setSelectedOption,
   } = props;
 
   const [isFormValid, setIsFormValid] = useState(false);
@@ -107,7 +127,7 @@ const Form: FC<FormProps> = (props): React.ReactElement => {
       ))}
       <Grid item>
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          Board Columns
+          {columnsTitle}
         </Typography>
       </Grid>
       {columns.map((column, index) => (
@@ -138,6 +158,26 @@ const Form: FC<FormProps> = (props): React.ReactElement => {
           </Typography>
         </Button>
       </Grid>
+      {isTaskForm && (
+        <Grid item>
+          <FormControl fullWidth size="small">
+            <InputLabel id="demo-simple-select-label">Status</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={selectedOption}
+              label="Status"
+              onChange={(e) => setSelectedOption?.(e.target.value)}
+            >
+              {options?.map((option, index) => (
+                <MenuItem key={index} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+      )}
       <Grid item>
         <Button
           onClick={handleOnSubmitForm}

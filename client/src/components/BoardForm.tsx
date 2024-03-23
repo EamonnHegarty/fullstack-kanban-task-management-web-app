@@ -88,6 +88,7 @@ const BoardForm = () => {
   return (
     <Form
       formTitle="Add New Board"
+      columnsTitle="Columns"
       formDataEntryData={textFieldsInfo}
       buttonText={buttonText}
       columns={columns}
