@@ -1,12 +1,24 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { Form } from "./Form";
-import { setSelectedOption } from "../slices/appSlice";
+import {
+  setOpenTaskForm,
+  setSelectedOption,
+  setShouldRefreshBoardData,
+} from "../slices/appSlice";
+import { ColumnsForTaskForm } from "../types/BoardsData";
+import { useCreateTaskWithSubTasksMutation } from "../slices/tasksApiSlice";
+import { toast } from "react-toastify";
 
 const TaskForm = () => {
   const dispatch = useAppDispatch();
-  const { isEditingBoard, selectedTask, optionsForStatus, selectedOption } =
-    useAppSelector((state) => state.app);
+  const {
+    selectedBoard,
+    isEditingBoard,
+    selectedTask,
+    optionsForStatus,
+    selectedOption,
+  } = useAppSelector((state) => state.app);
 
   const [taskTitle, setTaskTitle] = useState<string>(
     isEditingBoard && selectedTask ? selectedTask.boardName : ""
@@ -19,6 +31,8 @@ const TaskForm = () => {
       ? selectedTask.columns.map((column) => column.columnName)
       : [""]
   );
+
+  const [createTask] = useCreateTaskWithSubTasksMutation();
 
   const textFieldsInfo = [
     {
@@ -37,12 +51,34 @@ const TaskForm = () => {
 
   const buttonText = isEditingBoard ? "Save Changes" : "Create New Board";
 
-  const handleSetSelectedOption = (option: string) => {
-    dispatch(setSelectedOption(option));
-  };
+  const handleSetSelectedOption = useCallback(
+    (option: ColumnsForTaskForm) => {
+      console.log(option);
+      dispatch(setSelectedOption(option));
+    },
+    [dispatch]
+  );
 
   const handleOnSubmitForm = () => {
-    console.log("submit");
+    const promise = createTask({
+      id: selectedBoard?._id,
+      columnId: selectedOption?._id,
+      taskTitle,
+      taskDescription,
+      subtasks: columns,
+    }).unwrap();
+
+    promise
+      .then(() => {
+        toast.success("Task Created Successfully");
+      })
+      .catch(() => {
+        toast.error("Failed to updated board");
+      })
+      .finally(() => {
+        dispatch(setOpenTaskForm(false));
+        dispatch(setShouldRefreshBoardData(true));
+      });
   };
 
   return (

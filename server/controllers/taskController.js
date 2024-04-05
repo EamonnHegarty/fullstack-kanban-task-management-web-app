@@ -3,22 +3,28 @@ import Task from "../models/taskModel.js";
 import Subtask from "../models/subtaskModel.js";
 
 export const createTaskWithSubtasks = asyncHandler(async (req, res) => {
-  const { columnId, taskTitle, taskDescription, subtasks } = req.body;
+  const { taskTitle, taskDescription, subtasks } = req.body;
+
+  const { id } = req.params;
+
+  console.log(id);
 
   const task = new Task({
-    column: columnId,
+    column: id,
     taskTitle,
     taskDescription,
   });
 
   const createdTask = await task.save();
 
+  console.log(subtasks);
+
   if (subtasks && subtasks.length) {
     await Promise.all(
       subtasks.map(async (subtask) => {
         const newSubTask = new Subtask({
           task: createdTask._id,
-          subtaskTitle: subtask.subtaskTitle,
+          subtaskTitle: subtask,
           completed: false,
         });
 

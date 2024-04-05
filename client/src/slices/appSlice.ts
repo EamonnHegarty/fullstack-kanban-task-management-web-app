@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { SelectedBoard } from "../types/BoardsData";
+import { ColumnsForTaskForm, SelectedBoard } from "../types/BoardsData";
 import { columnsApiSlice } from "./columnsApiSlice";
 
 type AppSlice = {
@@ -13,8 +13,8 @@ type AppSlice = {
   shouldRefreshBoardData: boolean;
   shouldRefreshBoardsListOnly: boolean;
   openTaskForm: boolean;
-  optionsForStatus: Array<string> | null;
-  selectedOption: string;
+  optionsForStatus: Array<ColumnsForTaskForm> | null;
+  selectedOption: ColumnsForTaskForm | null;
 };
 
 const initialState: AppSlice = {
@@ -28,7 +28,7 @@ const initialState: AppSlice = {
   shouldRefreshBoardsListOnly: false,
   openTaskForm: false,
   optionsForStatus: null,
-  selectedOption: "",
+  selectedOption: null,
 };
 const appSlice = createSlice({
   name: "app",
@@ -72,10 +72,7 @@ const appSlice = createSlice({
     builder.addMatcher(
       columnsApiSlice.endpoints.getColumns.matchFulfilled,
       (state, action) => {
-        const columnNames = action.payload.map(
-          (col: { columnName: unknown }) => col.columnName
-        );
-        state.optionsForStatus = columnNames;
+        state.optionsForStatus = action.payload;
       }
     );
   },

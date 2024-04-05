@@ -5,12 +5,14 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  SelectChangeEvent,
   TextField,
   Typography,
   alpha,
 } from "@mui/material";
 import React, { FC, useEffect, useState } from "react";
 import { ColumnTextField } from "./ColumnTextField";
+import { ColumnsForTaskForm } from "../types/BoardsData";
 
 type FormDataEntry = {
   id: number;
@@ -24,9 +26,9 @@ type FormProps = {
   columns: string[];
   columnsTitle: string;
   isTaskForm?: boolean;
-  options?: Array<string>;
-  selectedOption?: string;
-  setSelectedOption?: (option: string) => void;
+  options?: Array<ColumnsForTaskForm>;
+  selectedOption?: ColumnsForTaskForm | null;
+  setSelectedOption?: (option: ColumnsForTaskForm) => void;
   buttonText: string;
   formDataEntryData: FormDataEntry[];
   setColumns: (columns: string[]) => void;
@@ -102,6 +104,16 @@ const Form: FC<FormProps> = (props): React.ReactElement => {
     setColumns(updatedColumns);
   };
 
+  const handleSelectChange = (event: SelectChangeEvent) => {
+    const value = event.target.value;
+    const selectedOption = options?.find(
+      (option) => option.columnName === value
+    );
+    if (selectedOption && setSelectedOption) {
+      setSelectedOption(selectedOption);
+    }
+  };
+
   useEffect(() => {
     const isAnyEntryEmpty = formDataEntryData.some(
       (entry) => entry.value.trim() === ""
@@ -165,13 +177,13 @@ const Form: FC<FormProps> = (props): React.ReactElement => {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={selectedOption}
+              value={selectedOption?.columnName || ""}
               label="Status"
-              onChange={(e) => setSelectedOption?.(e.target.value)}
+              onChange={handleSelectChange}
             >
               {options?.map((option, index) => (
-                <MenuItem key={index} value={option}>
-                  {option}
+                <MenuItem key={index} value={option.columnName}>
+                  {option.columnName}
                 </MenuItem>
               ))}
             </Select>

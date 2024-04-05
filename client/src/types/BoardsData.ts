@@ -44,6 +44,6 @@ export type SelectedBoard = {
 };
 
 export type ColumnsForTaskForm = {
-  id: string;
+  _id: string;
   columnName: string;
 };
