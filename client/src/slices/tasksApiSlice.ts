@@ -5,7 +5,7 @@ export const tasksApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     createTaskWithSubTasks: builder.mutation({
       query: ({ id, columnId, ...data }) => ({
-        url: `${BOARDS_URL}/${id}${COLUMNS_URL}/${columnId}/${TASKS_URL}`,
+        url: `${BOARDS_URL}/${id}${COLUMNS_URL}/${columnId}${TASKS_URL}`,
         method: "POST",
         body: { ...data },
       }),
