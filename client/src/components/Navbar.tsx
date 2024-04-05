@@ -76,7 +76,7 @@ const Navbar = () => {
         navigate("/");
       })
       .catch(() => {
-        console.log("Failed to log out");
+        toast.error("Failed to log out");
       });
   }, [dispatch, logout, navigate]);
 

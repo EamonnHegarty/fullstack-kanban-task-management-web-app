@@ -49,11 +49,10 @@ const TaskForm = () => {
     },
   ];
 
-  const buttonText = isEditingBoard ? "Save Changes" : "Create New Board";
+  const buttonText = isEditingBoard ? "Save Changes" : "Add Task";
 
   const handleSetSelectedOption = useCallback(
     (option: ColumnsForTaskForm) => {
-      console.log(option);
       dispatch(setSelectedOption(option));
     },
     [dispatch]
@@ -73,7 +72,7 @@ const TaskForm = () => {
         toast.success("Task Created Successfully");
       })
       .catch(() => {
-        toast.error("Failed to updated board");
+        toast.error("Failed to create task");
       })
       .finally(() => {
         dispatch(setOpenTaskForm(false));
