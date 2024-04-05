@@ -14,7 +14,6 @@ type AppSlice = {
   shouldRefreshBoardsListOnly: boolean;
   openTaskForm: boolean;
   optionsForStatus: Array<string> | null;
-  selectedOptionStatus: string;
   selectedOption: string;
 };
 
@@ -30,7 +29,6 @@ const initialState: AppSlice = {
   openTaskForm: false,
   optionsForStatus: null,
   selectedOption: "",
-  selectedOptionStatus: "",
 };
 const appSlice = createSlice({
   name: "app",
@@ -69,9 +67,6 @@ const appSlice = createSlice({
     setSelectedOption: (state, action) => {
       state.selectedOption = action.payload;
     },
-    setSelectedOptionStatus: (state, action) => {
-      state.selectedOptionStatus = action.payload;
-    },
   },
   extraReducers: (builder) => {
     builder.addMatcher(
@@ -97,7 +92,6 @@ export const {
   setShouldRefreshBoardsListOnly,
   setOpenTaskForm,
   setOptionsForStatus,
-  setSelectedOptionStatus,
   setSelectedOption,
 } = appSlice.actions;
 
