@@ -18,13 +18,20 @@ import React, { useCallback } from "react";
 import { Menu, MenuItem } from "@mui/material";
 import { setOpenBoardForm } from "../slices/appSlice";
 import { useDeleteBoardByIdMutation } from "../slices/boardsApiSlice";
+import { useLogoutMutation } from "../slices/usersApiSlice";
+import { logoutClient } from "../slices/authSlice";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [logout] = useLogoutMutation();
 
   const { selectedBoardName, selectedBoardId, openTaskForm } = useAppSelector(
     (state) => state.app
   );
+
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const [deleteBoardById] = useDeleteBoardByIdMutation();
@@ -58,6 +65,20 @@ const Navbar = () => {
   const handleOnAddTaskClicked = () => {
     dispatch(setOpenTaskForm(!openTaskForm));
   };
+
+  const handleOnLogout = useCallback(() => {
+    const promise = logout({}).unwrap();
+
+    promise
+      .then(() => {
+        toast.success("Log out successful");
+        dispatch(logoutClient());
+        navigate("/");
+      })
+      .catch(() => {
+        console.log("Failed to log out");
+      });
+  }, [dispatch, logout, navigate]);
 
   return (
     <Box
@@ -131,6 +152,9 @@ const Navbar = () => {
               disabled={!selectedBoardId?.length}
             >
               <Typography variant="body1">Delete Board</Typography>
+            </MenuItem>
+            <MenuItem onClick={handleOnLogout}>
+              <Typography variant="body1">Logout</Typography>
             </MenuItem>
           </Menu>
         </Toolbar>

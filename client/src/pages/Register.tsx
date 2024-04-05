@@ -1,4 +1,10 @@
-import React, { FC, ReactElement, useState, useEffect } from "react";
+import React, {
+  FC,
+  ReactElement,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -10,19 +16,20 @@ import { FormControl } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { Loader } from "../components/Loader";
-import { useLoginMutation } from "../slices/usersApiSlice";
+import { useRegsiterMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
 import { UserInfo } from "../types/UserInfo";
+import { Loader } from "../components/Loader";
 
-export const Login: FC = (): ReactElement => {
+export const Register: FC = (): ReactElement => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const [login, { isLoading }] = useLoginMutation();
+  const [register, { isLoading }] = useRegsiterMutation();
 
   const { userInfo } = useAppSelector((state) => state.auth);
 
@@ -32,36 +39,48 @@ export const Login: FC = (): ReactElement => {
     }
   }, [userInfo, navigate]);
 
-  const handleOnEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value }: { value: string } = event.target;
-    setEmail(value);
-  };
+  const handleOnNameChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const { value }: { value: string } = event.target;
+      setName(value);
+    },
+    []
+  );
 
-  const handleOnPasswordChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const { value }: { value: string } = event.target;
-    setPassword(value);
-  };
+  const handleOnEmailChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const { value }: { value: string } = event.target;
+      setEmail(value);
+    },
+    []
+  );
 
-  const handleOnSubmitForm = () => {
-    const promise = login({ email, password }).unwrap();
+  const handleOnPasswordChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const { value }: { value: string } = event.target;
+      setPassword(value);
+    },
+    []
+  );
+
+  const handleOnSubmitForm = useCallback(() => {
+    const promise = register({ name, email, password }).unwrap();
 
     promise
       .then((response: UserInfo) => {
         dispatch(setCredentials(response));
         toast.success("Successfully logged In");
-        navigate("/desktop");
+        navigate("/dashboard");
       })
       .catch(() => {
-        toast.error("Invalid email or password");
-        console.log("error");
+        toast.error("Failed to log in");
       })
       .finally(() => {
         setEmail("");
         setPassword("");
+        setName("");
       });
-  };
+  }, [dispatch, email, name, navigate, password, register]);
 
   return (
     <>
@@ -93,9 +112,26 @@ export const Login: FC = (): ReactElement => {
               />
             </Avatar>
             <Typography component="h1" variant="h5" color="secondary.light">
-              Sign in
+              Register
             </Typography>
             <Box sx={{ mt: 1 }}>
+              <FormControl fullWidth>
+                <TextField
+                  margin="normal"
+                  value={name}
+                  onChange={handleOnNameChange}
+                  required
+                  fullWidth
+                  id="name"
+                  label="Name"
+                  name="name"
+                  autoComplete="off"
+                  autoFocus
+                  InputLabelProps={{
+                    style: { color: "white" },
+                  }}
+                />
+              </FormControl>
               <FormControl fullWidth>
                 <TextField
                   margin="normal"
@@ -144,11 +180,11 @@ export const Login: FC = (): ReactElement => {
                 }}
                 disabled={isLoading}
               >
-                Sign In
+                Register
               </Button>
-              <Link to="/register">
+              <Link to="/">
                 <Typography variant="h2" color="white">
-                  Register
+                  Login
                 </Typography>
               </Link>
             </Box>

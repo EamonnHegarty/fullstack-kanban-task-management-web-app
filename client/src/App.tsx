@@ -8,11 +8,13 @@ import { lightTheme, darkTheme } from "./theme/theme";
 import PrivateRoute from "./components/PrivateRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Register } from "./pages/Register";
 
 const AppRouter = () => {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
+      <Route path="/register" element={<Register />} />
       <Route path="" element={<PrivateRoute />}>
         <Route path="/desktop" element={<Desktop />} />
       </Route>
