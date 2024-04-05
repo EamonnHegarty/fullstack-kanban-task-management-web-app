@@ -30,8 +30,15 @@ Users should be able to:
 
 ### Links (Work in progress)
 
-- [TBC]()
+- [Live](https://fullstack-kanban-task-management-web-app.onrender.com)
 
+###
+Still to build: 
+- Edit/Delete tasks.
+- Mark subtasks as complete.
+
+Nice to have: 
+- Draggable components. 
 ## My process
 
 ### Built with
