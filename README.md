@@ -32,6 +32,9 @@ Users should be able to:
 
 - [Live](https://fullstack-kanban-task-management-web-app.onrender.com)
 
+![image](https://github.com/user-attachments/assets/7902a78e-399d-4f9d-95cf-166b2513278a)
+
+
 ###
 Still to build: 
 - Edit/Delete tasks.
